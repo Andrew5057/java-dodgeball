@@ -26,7 +26,7 @@ public class GameWindow extends Frame {
     private double xScaleFactor;
     private double yScaleFactor;
     private Camera camera;
-    private List<Model3> models; // Models that the Window should be keeping track of
+    private volatile List<Model3> models; // Models that the Window should be keeping track of
     
     
     /**

@@ -15,7 +15,7 @@ import java.awt.event.MouseListener;
  */
 public class PlayerInput implements KeyListener, MouseListener {
     // instance variables - replace the example below with your own
-    private boolean wDown, aDown, sDown, dDown, spaceDown, lClickDown, focused;
+    private volatile boolean wDown, aDown, sDown, dDown, spaceDown, lClickDown, focused;
 
     public PlayerInput(GameWindow window) {
         wDown = false;
