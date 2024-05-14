@@ -47,11 +47,11 @@ public class Player extends RectangleBox3 {
     /** 
      * @return Vector3
      */
-    public synchronized Vector3 lookVector() {
+    public Vector3 lookVector() {
         return lookVector;
     }
     
-    public synchronized InputData inputData() {
+    public InputData inputData() {
         return inputData;
     }
     

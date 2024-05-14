@@ -28,53 +28,53 @@ public class InputData {
     /** 
      * @return boolean
      */
-    public synchronized boolean w() {
+    public boolean w() {
         return w;
     }
-    public synchronized boolean a() {
+    public boolean a() {
         return a;
     }
-    public synchronized boolean s() {
+    public boolean s() {
         return s;
     }
-    public synchronized boolean d() {
+    public boolean d() {
         return d;
     }
-    public synchronized boolean space() {
+    public boolean space() {
         return space;
     }
-    public synchronized double mouseX() {
+    public double mouseX() {
         return mouseX;
     }
-    public synchronized double mouseY() {
+    public double mouseY() {
         return mouseY;
     }
-    public synchronized boolean throwingDodgeball() {
+    public boolean throwingDodgeball() {
         return throwingDodgeball;
     }
     
-    public synchronized void setW(boolean wDown) {
+    public void setW(boolean wDown) {
         w = wDown;
     }
-    public synchronized void setA(boolean aDown) {
+    public void setA(boolean aDown) {
         a = aDown;
     }
-    public synchronized void setS(boolean sDown) {
+    public void setS(boolean sDown) {
         s = sDown;
     }
-    public synchronized void setD(boolean dDown) {
+    public void setD(boolean dDown) {
         d = dDown;
     }
-    public synchronized void setSpace(boolean spaceDown) {
+    public void setSpace(boolean spaceDown) {
         space = spaceDown;
     }
-    public synchronized void setMouseX(double mouseX) {
+    public void setMouseX(double mouseX) {
         this.mouseX = mouseX;
     }
-    public synchronized void setMouseY(double mouseY) {
+    public void setMouseY(double mouseY) {
         this.mouseY = mouseY;
     }
-    public synchronized void setThrowingDodgeball(boolean throwingDodgeball) {
+    public void setThrowingDodgeball(boolean throwingDodgeball) {
         this.throwingDodgeball = throwingDodgeball;
     }
 }
