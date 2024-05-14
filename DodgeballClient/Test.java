@@ -30,7 +30,7 @@ public class Test implements KeyListener {
                     Thread.sleep(33 - ping);
                 }
             } catch (Exception e) {
-                System.err.println(e);
+                e.printStackTrace();
             }
             time = System.currentTimeMillis();
             if (directionRequested) {

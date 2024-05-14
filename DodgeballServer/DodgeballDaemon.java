@@ -27,7 +27,7 @@ public class DodgeballDaemon implements Runnable {
             listener = new ServerSocket(port);
             System.out.println("Your host name: " + InetAddress.getLocalHost().getHostName());
         } catch (IOException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return;
         }
         while (true) {

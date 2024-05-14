@@ -104,14 +104,14 @@ public class Client implements Runnable {
                 }
             }
         } catch (IOException e) {
-            System.err.println(e);
+            e.printStackTrace();
         } catch (InterruptedException e) {
-            System.err.println(e);
+            e.printStackTrace();
         } finally {
             try {
                 socket.close();
             } catch (IOException e) {
-                System.err.println(e);
+                e.printStackTrace();
             }
         }
     }
@@ -141,7 +141,7 @@ public class Client implements Runnable {
                     found = true;
                 } catch (UnknownHostException uhe) {} catch (IOException ioe) {}
             } catch (IOException e) {
-                System.err.println(e);
+                e.printStackTrace();
                 reader.close();
                 return false;
             }

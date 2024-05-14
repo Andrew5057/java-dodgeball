@@ -131,7 +131,7 @@ public class GameManager implements Runnable {
                     Thread.sleep(33 - ping);
                 }
             } catch (Exception e) {
-                System.err.println("Exception: " + e);
+                e.printStackTrace();
                 return;
             }
             time = System.currentTimeMillis();
