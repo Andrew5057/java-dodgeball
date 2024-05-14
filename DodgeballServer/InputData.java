@@ -9,9 +9,9 @@ package DodgeballServer;
  */
 public class InputData {
     // In which non-threadsafe objects becomes really helpful
-    private volatile boolean w, a, s, d, space;
-    private volatile double mouseX, mouseY;
-    private volatile boolean throwingDodgeball;
+    private boolean w, a, s, d, space;
+    private double mouseX, mouseY;
+    private boolean throwingDodgeball;
     
     public InputData() {
         w = false;
