@@ -15,7 +15,7 @@ import java.awt.event.MouseListener;
  */
 public class PlayerInput implements KeyListener, MouseListener {
     // instance variables - replace the example below with your own
-    private boolean wDown, aDown, sDown, dDown, spaceDown, lClickDown, focused;
+    private volatile boolean wDown, aDown, sDown, dDown, spaceDown, lClickDown, focused;
 
     public PlayerInput(GameWindow window) {
         wDown = false;
@@ -29,31 +29,31 @@ public class PlayerInput implements KeyListener, MouseListener {
         window.addMouseListener(this);
     }
     
-    public boolean wDown() { return wDown; }
-    public boolean aDown() { return aDown; }
-    public boolean sDown() { return sDown; }
-    public boolean dDown() { return dDown; }
-    public boolean spaceDown() { return spaceDown; }
-    public boolean lClickDown() { return lClickDown; }
-    public boolean isFocused() { return focused; }
+    public synchronized boolean wDown() { return wDown; }
+    public synchronized boolean aDown() { return aDown; }
+    public synchronized boolean sDown() { return sDown; }
+    public synchronized boolean dDown() { return dDown; }
+    public synchronized boolean spaceDown() { return spaceDown; }
+    public synchronized boolean lClickDown() { return lClickDown; }
+    public synchronized boolean isFocused() { return focused; }
 
-    public void releaseLClick() {
+    public synchronized void releaseLClick() {
         lClickDown = false;
     }
     
     /** 
      * @return double
      */
-    public double mouseX() {
+    public synchronized double mouseX() {
         Point location = MouseInfo.getPointerInfo().getLocation();
         return location.getX();
     }
-    public double mouseY() {
+    public synchronized double mouseY() {
         Point location = MouseInfo.getPointerInfo().getLocation();
         return location.getY();
     }
 
-    public void keyPressed(KeyEvent event) {
+    public synchronized void keyPressed(KeyEvent event) {
         switch (event.getKeyCode()) {
             case KeyEvent.VK_W:
                 wDown = true;
@@ -72,7 +72,7 @@ public class PlayerInput implements KeyListener, MouseListener {
                 break;
         }
     }
-    public void keyReleased(KeyEvent event) {
+    public synchronized void keyReleased(KeyEvent event) {
         switch (event.getKeyCode()) {
             case KeyEvent.VK_W:
                 wDown = false;
@@ -94,7 +94,7 @@ public class PlayerInput implements KeyListener, MouseListener {
 
     public void keyTyped(KeyEvent event) {}
 
-    public void mousePressed(MouseEvent event) {
+    public synchronized void mousePressed(MouseEvent event) {
         if (event.getButton() == MouseEvent.BUTTON1) {
             lClickDown = true;
         }

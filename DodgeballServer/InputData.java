@@ -9,9 +9,9 @@ package DodgeballServer;
  */
 public class InputData {
     // In which non-threadsafe objects becomes really helpful
-    private boolean w, a, s, d, space;
-    private double mouseX, mouseY;
-    private boolean throwingDodgeball;
+    private volatile boolean w, a, s, d, space;
+    private volatile double mouseX, mouseY;
+    private volatile boolean throwingDodgeball;
     
     public InputData() {
         w = false;
@@ -28,53 +28,53 @@ public class InputData {
     /** 
      * @return boolean
      */
-    public boolean w() {
+    public synchronized boolean w() {
         return w;
     }
-    public boolean a() {
+    public synchronized boolean a() {
         return a;
     }
-    public boolean s() {
+    public synchronized boolean s() {
         return s;
     }
-    public boolean d() {
+    public synchronized boolean d() {
         return d;
     }
-    public boolean space() {
+    public synchronized boolean space() {
         return space;
     }
-    public double mouseX() {
+    public synchronized double mouseX() {
         return mouseX;
     }
-    public double mouseY() {
+    public synchronized double mouseY() {
         return mouseY;
     }
-    public boolean throwingDodgeball() {
+    public synchronized boolean throwingDodgeball() {
         return throwingDodgeball;
     }
     
-    public void setW(boolean wDown) {
+    public synchronized void setW(boolean wDown) {
         w = wDown;
     }
-    public void setA(boolean aDown) {
+    public synchronized void setA(boolean aDown) {
         a = aDown;
     }
-    public void setS(boolean sDown) {
+    public synchronized void setS(boolean sDown) {
         s = sDown;
     }
-    public void setD(boolean dDown) {
+    public synchronized void setD(boolean dDown) {
         d = dDown;
     }
-    public void setSpace(boolean spaceDown) {
+    public synchronized void setSpace(boolean spaceDown) {
         space = spaceDown;
     }
-    public void setMouseX(double mouseX) {
+    public synchronized void setMouseX(double mouseX) {
         this.mouseX = mouseX;
     }
-    public void setMouseY(double mouseY) {
+    public synchronized void setMouseY(double mouseY) {
         this.mouseY = mouseY;
     }
-    public void setThrowingDodgeball(boolean throwingDodgeball) {
+    public synchronized void setThrowingDodgeball(boolean throwingDodgeball) {
         this.throwingDodgeball = throwingDodgeball;
     }
 }

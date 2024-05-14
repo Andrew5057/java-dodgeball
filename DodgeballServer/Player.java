@@ -20,10 +20,10 @@ public class Player extends RectangleBox3 {
     private static final Vector3 DIMENSIONS = new Vector3(BASE_SIZE, HEIGHT, BASE_SIZE);
     private static final Vector3 centerToHead = new Vector3(0, HEIGHT / 2.0, 0);
     
-    private Vector3 feetLocation;
-    private Vector3 lookVector;
-    private Projectile3 jumpTrajectory;
-    private InputData inputData;
+    private volatile Vector3 feetLocation;
+    private volatile Vector3 lookVector;
+    private volatile Projectile3 jumpTrajectory;
+    private volatile InputData inputData;
     
     public Player() {
         super(DIMENSIONS, new Vector3(0, HEIGHT/2.0, 0));
@@ -47,11 +47,11 @@ public class Player extends RectangleBox3 {
     /** 
      * @return Vector3
      */
-    public Vector3 lookVector() {
+    public synchronized Vector3 lookVector() {
         return lookVector;
     }
     
-    public InputData inputData() {
+    public synchronized InputData inputData() {
         return inputData;
     }
     
