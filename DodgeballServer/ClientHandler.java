@@ -33,7 +33,7 @@ public class ClientHandler implements Runnable {
             input = new DataInputStream(socket.getInputStream());
             output = new DataOutputStream(socket.getOutputStream());
         } catch (Exception e) {
-            System.err.println("Error:\n" + e);
+            e.printStackTrace();
             return;
         }
         
@@ -97,7 +97,7 @@ public class ClientHandler implements Runnable {
                 player.inputData().setMouseX(mouseX);
                 player.inputData().setMouseY(mouseY);
             } catch (Exception e) {
-                System.err.println("Error:\n" + e.toString());
+                e.printStackTrace();
                 return;
             }
         }
