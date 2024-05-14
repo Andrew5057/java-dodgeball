@@ -144,7 +144,7 @@ public class Model3 implements Cloneable {
     public static void designModel(String path) throws IOException {
         Scanner reader = new Scanner(System.in);
         System.out.print("Enter the name of the model: ");
-        File outputFile = new File(path + "\\" + reader.nextLine() + ".md3");
+        File outputFile = new File(path + "/" + reader.nextLine() + ".md3");
         outputFile.createNewFile();
         
         DataOutputStream output = new DataOutputStream(new BufferedOutputStream(
