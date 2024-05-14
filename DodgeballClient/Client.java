@@ -152,7 +152,7 @@ public class Client implements Runnable {
             input = new DataInputStream(socket.getInputStream());
             output = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            System.err.println("Error:\n" + e);
+            e.printStackTrace();
             return false;
         }
 

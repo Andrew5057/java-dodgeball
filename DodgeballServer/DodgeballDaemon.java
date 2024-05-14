@@ -38,12 +38,12 @@ public class DodgeballDaemon implements Runnable {
                 new Thread(new ClientHandler(manager, socket, player)).start();
             }
             catch (IOException e) {
-                System.err.println("Error:\n" + e.toString());
+                e.printStackTrace();
                 try {
                     listener.close();
                 }
                 catch (IOException ioe) {
-                    System.err.println("Error while closing socket: " + ioe);
+                    e.printStackTrace();;
                     return;
                 }
             }
