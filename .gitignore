@@ -88,5 +88,4 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
-tests.bat
-testc.bat
+*.bat
