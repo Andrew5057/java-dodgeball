@@ -26,7 +26,7 @@ public class GameWindow extends Frame {
     private double xScaleFactor;
     private double yScaleFactor;
     private Camera camera;
-    private volatile List<Model3> models; // Models that the Window should be keeping track of
+    private List<Model3> models; // Models that the Window should be keeping track of
     
     
     /**
@@ -73,11 +73,11 @@ public class GameWindow extends Frame {
      * 
      * @param   model   The Model3 that the Window should begin drwaing.
      */
-    public synchronized void addModel(Model3 model) {
+    public void addModel(Model3 model) {
         models.add(model);
     }
     
-    public synchronized void clear() {
+    public void clear() {
         models = new ArrayList<Model3>();
     }
     
@@ -89,7 +89,7 @@ public class GameWindow extends Frame {
      * @param   pitch   The amount that the Camera should be rotate in the pitch (up-down) 
      *                  direction.
      */
-    public synchronized void rotateCamera(double yaw, double pitch) {
+    public void rotateCamera(double yaw, double pitch) {
         camera.rotate(yaw, pitch);
     }
     
@@ -97,17 +97,17 @@ public class GameWindow extends Frame {
     /** 
      * @return Vector3
      */
-    public synchronized Vector3 cameraPosition() {
+    public Vector3 cameraPosition() {
         return camera.position();
     }
     
-    public synchronized Vector3 cameraDirection() {
+    public Vector3 cameraDirection() {
         return camera.direction();
     }
-    public synchronized Vector3 cameraHorizontal() {
+    public Vector3 cameraHorizontal() {
         return camera.horizontal();
     }
-    public synchronized Vector3 cameraVertical() {
+    public Vector3 cameraVertical() {
         return camera.vertical();
     }
     
@@ -118,7 +118,7 @@ public class GameWindow extends Frame {
      * @param   y   The amount the Camera should be translated in the y direction.
      * @param   z   The amount the Camera should be translated in the z direction.
      */
-    public synchronized void translateCamera(double x, double y, double z) {
+    public void translateCamera(double x, double y, double z) {
         camera.translate(new Vector3(x, y, z));
     }
     /**
@@ -127,7 +127,7 @@ public class GameWindow extends Frame {
      * @param   displacement    A Vector3 containing the desired x, y, and z displacement, 
      *                          respectively.
      */
-    public synchronized void translateCamera(Vector3 displacement) {
+    public void translateCamera(Vector3 displacement) {
         camera.translate(displacement);
     }
     
@@ -137,7 +137,7 @@ public class GameWindow extends Frame {
      * @param   position    A Vector3 containing the desired x, y, and z coordinates, 
      *                      respectively.
      */
-    public synchronized void setCameraPosition(Vector3 position) {
+    public void setCameraPosition(Vector3 position) {
         camera.setPosition(position);
     }
     
@@ -147,7 +147,7 @@ public class GameWindow extends Frame {
      * @param   direction   A Vector3 containing the desired x, y, and z directions, 
      *                      respectively.
      */
-    public synchronized void setCameraDirection(Vector3 direction) {
+    public void setCameraDirection(Vector3 direction) {
         camera.setDirection(direction);
     }
     
@@ -181,7 +181,7 @@ public class GameWindow extends Frame {
      *              - An int[] containing the y-coordinates of the vertices on the screen.
      *              - The Color of the Polygon3.
      */
-    private synchronized void drawPolygon(Graphics g, Object[] polyData) {
+    private void drawPolygon(Graphics g, Object[] polyData) {
         int[] xCoords = (int[]) polyData[0];
         int[] yCoords = (int[]) polyData[1];
         g.setColor((Color) polyData[2]);
@@ -191,7 +191,7 @@ public class GameWindow extends Frame {
     /**
      * Draw all tracked Models on the screen.
      */
-    public synchronized void paint(Graphics g) {
+    public void paint(Graphics g) {
         List<Polygon3> polys = new ArrayList<Polygon3>();
         for (Model3 model : models) {
             polys.addAll(Arrays.asList(camera.render(model)));
@@ -206,7 +206,7 @@ public class GameWindow extends Frame {
     }
     
     @Override
-    public synchronized void update(Graphics g) {
+    public void update(Graphics g) {
         paint(g);
     }
 }
