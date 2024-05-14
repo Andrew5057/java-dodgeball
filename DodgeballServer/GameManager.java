@@ -18,8 +18,8 @@ public class GameManager implements Runnable {
     
     private DodgeballDaemon daemon;
     private CollisionManager collManager;
-    private List<Player> players;
-    private List<Dodgeball> dodgeballs;
+    private volatile List<Player> players;
+    private volatile List<Dodgeball> dodgeballs;
     
     public GameManager() {
         daemon = new DodgeballDaemon(8080, this);
