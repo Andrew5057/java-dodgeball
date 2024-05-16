@@ -56,13 +56,11 @@ public class Client implements Runnable {
         long time = System.currentTimeMillis();
         try {
             while (true) {
-                window.clear();
-
                 long ping = System.currentTimeMillis() - time;
                 if (ping < MS_PER_FRAME) {
                     Thread.sleep(MS_PER_FRAME - ping);
                 } else {
-                    for (int i = 1; time+MS_PER_FRAME*i < System.currentTimeMillis(); i++) {
+                    /*for (int i = 1; time+MS_PER_FRAME*i < System.currentTimeMillis(); i++) {
                         readVector3();
                         readVector3();
                         int n = input.readInt();
@@ -70,7 +68,7 @@ public class Client implements Runnable {
                         readManyVector2s(n);
                         readManyVector3s(input.readInt());
                         writeInfo();
-                    }
+                    }*/
                 }
                 time = System.currentTimeMillis();
 
@@ -79,14 +77,16 @@ public class Client implements Runnable {
                 window.setCameraPosition(myPos);
                 window.setCameraDirection(myDir);
                 
+                List<Model3> models = new ArrayList<Model3>();
+
                 int numPlayers = input.readInt();
                 List<Vector3> playerPositions = readManyVector3s(numPlayers);
                 List<Vector2> playerDirections = readManyVector2s(numPlayers);
-                addPlayerModels(playerPositions, playerDirections);
+                addPlayerModels(playerPositions, playerDirections, models);
                 
                 int numDodgeballs = input.readInt();
                 List<Vector3> dodgeballPositions = readManyVector3s(numDodgeballs);
-                addDodgeballModels(dodgeballPositions);
+                addDodgeballModels(dodgeballPositions, models);
                 
                 writeInfo();
 
@@ -96,11 +96,12 @@ public class Client implements Runnable {
 
                 playerInput.releaseLClick();
 
+                window.setModels(models);
                 window.repaint();
 
                 if (!playing) {
                     socket.close();
-                    return;
+                    System.exit(0);
                 }
             }
         } catch (IOException e) {
@@ -114,6 +115,7 @@ public class Client implements Runnable {
                 e.printStackTrace();
             }
         }
+        System.exit(0);
     }
 
     public void quit() {
@@ -170,7 +172,7 @@ public class Client implements Runnable {
 
 
 
-    private void addPlayerModels(List<Vector3> positions, List<Vector2> directions) {
+    private void addPlayerModels(List<Vector3> positions, List<Vector2> directions, List<Model3> models) {
         for (int i = 0; i < positions.size(); i++) {
             Vector3 pos = positions.get(i);
             Vector2 dir = directions.get(i);
@@ -180,18 +182,18 @@ public class Client implements Runnable {
             
             double lookAngle = Math.acos(dir.dot(Vector2.I));
             playerToDraw.rotate(lookAngle);
-            window.addModel(playerToDraw);
+            models.add(playerToDraw);
         }
     }
 
-    private void addDodgeballModels(List<Vector3> positions) {
+    private void addDodgeballModels(List<Vector3> positions, List<Model3> models) {
         for (int i = 0; i < positions.size(); i++) {
             Vector3 pos = positions.get(i);
 
             Model3 dodgeballToDraw = dodgeballModel.clone();
             dodgeballToDraw.translate(pos);
             
-            window.addModel(dodgeballToDraw);
+            models.add(dodgeballToDraw);
         }
     }
 

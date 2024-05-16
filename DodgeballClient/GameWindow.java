@@ -60,7 +60,6 @@ public class GameWindow extends Frame {
                 if (client != null) {
                     client.quit();
                 }
-                System.exit(0); // Should be updated later
             } 
         });
         
@@ -78,7 +77,11 @@ public class GameWindow extends Frame {
     }
     
     public void clear() {
-        models = new ArrayList<Model3>();
+        models.clear();
+    }
+
+    public void setModels(List<Model3> models) {
+        this.models = new ArrayList<Model3>(models);
     }
     
     /**
@@ -192,8 +195,9 @@ public class GameWindow extends Frame {
      * Draw all tracked Models on the screen.
      */
     public void paint(Graphics g) {
+        List<Model3> drawables = new ArrayList<Model3>(models);
         List<Polygon3> polys = new ArrayList<Polygon3>();
-        for (Model3 model : models) {
+        for (Model3 model : drawables) {
             polys.addAll(Arrays.asList(camera.render(model)));
         }
 
@@ -203,10 +207,5 @@ public class GameWindow extends Frame {
         
         g.clearRect(0, 0, pixelsX, pixelsY);
         drawablePolys.sequential().forEach(p -> this.drawPolygon(g, p));
-    }
-    
-    @Override
-    public void update(Graphics g) {
-        paint(g);
     }
 }

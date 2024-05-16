@@ -1,5 +1,6 @@
 package DodgeballServer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.net.Socket;
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class ClientHandler implements Runnable {
                 writeVector3(player.lookVector());
 
                 List<Player> players  = manager.players();
+                players = new ArrayList<Player>(players);
                 output.writeInt(players.size() - 1);
                 for (Player p : players) {
                     if (p == player) {
@@ -65,6 +67,7 @@ public class ClientHandler implements Runnable {
                     writeVector2(p.lookVector().flatten());
                 }
                 List<Dodgeball> dodgeballs  = manager.dodgeballs();
+                dodgeballs = new ArrayList<Dodgeball>(dodgeballs);
                 output.writeInt(dodgeballs.size());
                 for (Dodgeball db : dodgeballs) {
                     writeVector3(db.position());
@@ -101,11 +104,10 @@ public class ClientHandler implements Runnable {
                 return;
             }
         }
-        while (true) {
-            try {
-                socket.close();
-                break;
-            } catch (Exception e) {}
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     

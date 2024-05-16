@@ -32,6 +32,7 @@ public class GameManager implements Runnable {
     public void addPlayer(Player player) {
         players.add(player);
         collManager.add(player);
+        dodgeballs.add(new Dodgeball(new Vector3(0, 1.75, 0), new Vector3(0, 0, 0), player));
     }
     
     public void removePlayer(Player player) {
