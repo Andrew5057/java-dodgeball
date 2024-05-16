@@ -43,9 +43,9 @@ public class Test implements KeyListener {
                 directionRequested = false;
             }
             
-            window.translateCamera(window.cameraHorizontal().multiply(((left ? -1 : 0) + (right ? 1 : 0)) * 20));
-            window.translateCamera(window.cameraDirection().multiply((fwd ? 1 : 0) + (back ? -1 : 0)));
-            window.translateCamera(new Vector3(0, 1, 0).multiply((down ? -1 : 0) + (up ? 1 : 0)));
+            window.translateCamera(window.cameraHorizontal().multiply(((left ? -0.033 : 0) + (right ? 0.033 : 0)) * 20));
+            window.translateCamera(window.cameraDirection().multiply((fwd ? 0.033 : 0) + (back ? -0.033 : 0)));
+            window.translateCamera(Vector3.J.multiply((down ? -0.033 : 0) + (up ? 0.033 : 0)));
             
             window.rotateCamera(
                 (yawL ? -1 : 0) + (yawR ? 1 : 0),

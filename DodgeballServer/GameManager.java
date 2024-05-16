@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @version 3-1-2024
  */
 public class GameManager implements Runnable {
-    public static final int MAX_PLAYERS = 10;
+    public static final int MAX_PLAYERS = Integer.MAX_VALUE;
     
     private DodgeballDaemon daemon;
     private CollisionManager collManager;
@@ -32,7 +32,7 @@ public class GameManager implements Runnable {
     public void addPlayer(Player player) {
         players.add(player);
         collManager.add(player);
-        dodgeballs.add(new Dodgeball(new Vector3(0, 1.75, 0), new Vector3(0, 0, 0), player));
+        players.add(new Player());
     }
     
     public void removePlayer(Player player) {
@@ -57,7 +57,7 @@ public class GameManager implements Runnable {
         // Check for player-dodgeball collisions
         List<Dodgeball> removables = new ArrayList<Dodgeball>();
         for (Dodgeball dodgeball : dodgeballs) {
-            // dodgeball.update(seconds);
+            dodgeball.update(seconds);
             if (!dodgeball.aboveGround()) {
                 removables.add(dodgeball);
                 continue;

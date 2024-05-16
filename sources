@@ -7,6 +7,7 @@ DodgeballClient/GameWindow.java
 DodgeballServer/ClientHandler.java
 DodgeballServer/DodgeballDaemon.java
 DodgeballServer/GameManager.java
+DodgeballServer/RunDodgeball.java
 DodgeballServer/Dodgeball.java
 DodgeballServer/InputData.java
 DodgeballServer/Player.java

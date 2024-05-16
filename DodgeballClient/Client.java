@@ -39,7 +39,7 @@ public class Client implements Runnable {
     public Client() throws FileNotFoundException, IOException, AWTException {
         String rootPath = new File("").getAbsolutePath();
         if (playerModel == null) {
-            // playerModel = new Model3(new File(rootPath + "/DodgeballClient/Assets/Player.md3"));
+            playerModel = new Model3(new File(rootPath + "/DodgeballClient/Assets/Player.md3"));
         }
         if (dodgeballModel == null) {
             dodgeballModel = new Model3(new File(rootPath + "/DodgeballClient/Assets/Dodgeball.md3"));
