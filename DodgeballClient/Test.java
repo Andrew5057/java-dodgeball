@@ -16,7 +16,7 @@ public class Test implements KeyListener {
      * @param args
      */
     public static void main(String[] args) throws IOException {
-        Model3 model = new Model3(new File(new File("").getAbsolutePath() + "/DodgeballClient/Assets/Dodgeball.md3"));
+        Model3 model = new Model3(new File(new File("").getAbsolutePath() + "/DodgeballClient/Assets/Player.md3"));
         
         GameWindow window = new GameWindow(1200, 1080, null);
         window.addModel(model);

@@ -127,6 +127,9 @@ public class Polygon3 implements Cloneable {
     public void translate(Vector3 displacement) {
         for (int i = 0; i < length; i++) {
             points[i] = points[i].add(displacement);
+            xCoords[i] = points[i].X;
+            yCoords[i] = points[i].Y;
+            zCoords[i] = points[i].Z;
         }
     }
     
@@ -149,6 +152,9 @@ public class Polygon3 implements Cloneable {
             xF = x0*cosYaw + z0*sinYaw;
             zF = -x0*sinYaw + z0*cosYaw;
             points[i] = new Vector3(xF, vecFromC.Y, zF).add(center);
+            xCoords[i] = points[i].X;
+            yCoords[i] = points[i].Y;
+            zCoords[i] = points[i].Z;
         }
     }
     
@@ -170,6 +176,9 @@ public class Polygon3 implements Cloneable {
             zF = -x0*sinYaw + z0*cosYaw;
             finalVec = new Vector3(xF, vecFromC.Y, zF).add(center);
             points[i] = finalVec;
+            xCoords[i] = points[i].X;
+            yCoords[i] = points[i].Y;
+            zCoords[i] = points[i].Z;
         }
     }
     

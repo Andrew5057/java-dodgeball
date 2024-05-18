@@ -192,7 +192,6 @@ public class Client implements Runnable {
 
             Model3 dodgeballToDraw = dodgeballModel.clone();
             dodgeballToDraw.translate(pos);
-            
             models.add(dodgeballToDraw);
         }
     }

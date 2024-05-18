@@ -1,7 +1,7 @@
 package DodgeballServer;
 
 import Game3D.Camera;
-import Game3D.RectangleBox3;
+import Game3D.EllipsoidBox3;
 import Game3D.Projectile3;
 import Game3D.Vector3;
 
@@ -11,9 +11,9 @@ import Game3D.Vector3;
  * @author Andrew Yim
  * @version 3-1-2024
  */
-public class Player extends RectangleBox3 {
-    public static final double HEIGHT = 1.75;
-    public static final double BASE_SIZE = 0.75;
+public class Player extends EllipsoidBox3 {
+    public static final double HEIGHT = 2.0;
+    public static final double BASE_SIZE = Math.sqrt(1.0/2.0);
     public static final double WALK_SPEED = 1.0;
     public static final double JUMP_POWER = -1.0 * Projectile3.GRAVITY;
     public static final double THROW_STRENGTH = 5.0;

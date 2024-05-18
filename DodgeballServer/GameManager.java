@@ -32,7 +32,7 @@ public class GameManager implements Runnable {
     public void addPlayer(Player player) {
         players.add(player);
         collManager.add(player);
-        players.add(new Player());
+        dodgeballs.add(new Dodgeball(Vector3.J, Vector3.ZERO, player));
     }
     
     public void removePlayer(Player player) {
@@ -57,7 +57,7 @@ public class GameManager implements Runnable {
         // Check for player-dodgeball collisions
         List<Dodgeball> removables = new ArrayList<Dodgeball>();
         for (Dodgeball dodgeball : dodgeballs) {
-            dodgeball.update(seconds);
+            // dodgeball.update(seconds);
             if (!dodgeball.aboveGround()) {
                 removables.add(dodgeball);
                 continue;
