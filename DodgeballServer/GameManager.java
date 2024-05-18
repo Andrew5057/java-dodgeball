@@ -113,7 +113,7 @@ public class GameManager implements Runnable {
             if (data.throwingDodgeball()) {
                 // Throw the dodgeball
                 Vector3 velocity = player.lookVector().multiply(Player.THROW_STRENGTH);
-                Dodgeball ball = new Dodgeball(Player.centerToHead(player.center()), velocity, player);
+                Dodgeball ball = new Dodgeball(player.headPosition(), velocity, player);
                 dodgeballs.add(ball);
                 // Prevent double-throws
                 data.setThrowingDodgeball(false);

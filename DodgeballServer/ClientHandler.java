@@ -48,7 +48,7 @@ public class ClientHandler implements Runnable {
                 time = System.currentTimeMillis();
 
                 // Write game data: Player pos, Player dir, Dodgeball pos
-                writeVector3(player.center().add(new Vector3(0, Player.HEIGHT/2.0, 0)));
+                writeVector3(player.headPosition());
                 writeVector3(player.lookVector());
 
                 List<Player> players  = manager.players();

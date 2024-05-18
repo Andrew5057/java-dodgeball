@@ -18,7 +18,7 @@ public class Player extends EllipsoidBox3 {
     public static final double JUMP_POWER = -1.0 * Projectile3.GRAVITY;
     public static final double THROW_STRENGTH = 5.0;
     private static final Vector3 DIMENSIONS = new Vector3(BASE_SIZE, HEIGHT, BASE_SIZE);
-    private static final Vector3 centerToHead = new Vector3(0, HEIGHT / 2.0, 0);
+    private static final Vector3 CENTER_TO_HEAD = new Vector3(0, HEIGHT * 0.25, 0);
     
     private Vector3 feetLocation;
     private Vector3 lookVector;
@@ -39,10 +39,9 @@ public class Player extends EllipsoidBox3 {
         this.inputData = inputData;
     }
 
-    public static Vector3 centerToHead(Vector3 center) {
-        return center.add(centerToHead);
+    public Vector3 headPosition() {
+        return center().add(CENTER_TO_HEAD);
     }
-    
     
     /** 
      * @return Vector3
