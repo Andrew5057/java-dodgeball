@@ -185,4 +185,8 @@ public class Model3 implements Cloneable {
         output.flush();
         output.close();
     }
+
+    public Vector3 center() {
+        return center;
+    }
 }
