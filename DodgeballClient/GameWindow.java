@@ -59,6 +59,8 @@ public class GameWindow extends Frame {
             public void windowClosing(WindowEvent e) {
                 if (client != null) {
                     client.quit();
+                } else {
+                    System.exit(0);
                 }
             } 
         });
