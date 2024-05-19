@@ -31,9 +31,16 @@ public class GameManager implements Runnable {
     dodgeballs = new ArrayList<Dodgeball>();
   }
 
+  /**
+   * Add a new player to the game handler.
+   *
+   * @param player The player to be added.
+   */
   public void addPlayer(Player player) {
     players.add(player);
     collManager.add(player);
+
+    dodgeballs.add(new Dodgeball(new Vector3(0, 1.5, 0), Vector3.ZERO, player));
   }
 
   public void removePlayer(Player player) {
@@ -47,95 +54,6 @@ public class GameManager implements Runnable {
 
   public List<Dodgeball> dodgeballs() {
     return dodgeballs;
-  }
-
-  /**
-   * Update all objects handled by this game manager. Calculate projectile motion, determine 
-   * collisions, and handle player movement.
-   *
-   * @param seconds The number of seconds that have elapsed since the last <code>update</code>
-   *      call.
-   */
-  public void update(double seconds) {
-    // Deal with basic physics
-    for (Player player : players) {
-      collManager.remove(player);
-      collManager.add(player);
-      player.update(seconds);
-    }
-    // Check for player-dodgeball collisions
-    List<Dodgeball> removables = new ArrayList<Dodgeball>();
-    for (Dodgeball dodgeball : dodgeballs) {
-      dodgeball.update(seconds);
-      if (!dodgeball.aboveGround()) {
-        removables.add(dodgeball);
-        continue;
-      }
-      Hitbox3[] colls = collManager.collisions(dodgeball.position());
-      if (colls.length > 0) {
-        for (Hitbox3 box : colls) {
-          if (box instanceof Player && dodgeball.thrower != box) {
-            Player pl = (Player) box;
-            pl.onDodgeballHit();
-            removables.add(dodgeball);
-            break;
-          }
-        }
-      }
-    }
-    // Delete all the collided dodgeballs
-    for (Dodgeball dodgeball : removables) {
-      dodgeballs.remove(dodgeball);
-    }
-
-    // Deal with player inputs
-    for (Player player : players) {
-      if (players == null) {
-        continue;
-      }
-
-      InputData data = player.inputData();
-
-      // Deal with movement.
-      int forward = 0;
-      if (data.wdown()) {
-        forward++;
-      }
-      if (data.sdown()) {
-        forward--;
-      }
-      int right = 0;
-      if (data.ddown()) {
-        right++;
-      }
-      if (data.adown()) {
-        right--;
-      }
-      Vector2 moveVelocity = new Vector2(forward, right);
-      moveVelocity = moveVelocity.unit();
-      moveVelocity = moveVelocity.multiply(0.033 * Player.WALK_SPEED);
-
-      if (data.spaceDown()) {
-        player.jump(moveVelocity.xcoord, moveVelocity.ycoord);
-      } else {
-        player.move(moveVelocity.xcoord, moveVelocity.ycoord);
-      }
-
-      // Deal with look vectors.
-      double yaw = data.mouseX() / 50.0;
-      double pitch = data.mouseY() / 50.0;
-      player.rotate(yaw, pitch);
-
-      // Throw dodgeballs
-      if (data.throwingDodgeball()) {
-        // Throw the dodgeball
-        Vector3 velocity = player.lookVector().multiply(Player.THROW_STRENGTH);
-        Dodgeball ball = new Dodgeball(player.headPosition(), velocity, player);
-        dodgeballs.add(ball);
-        // Prevent double-throws
-        data.setThrowingDodgeball(false);
-      }
-    }
   }
 
   @Override
@@ -154,6 +72,119 @@ public class GameManager implements Runnable {
       }
       time = System.currentTimeMillis();
       update(0.033);
+    }
+  }
+
+  /**
+   * Update all objects handled by this game manager. Calculate projectile motion, determine 
+   * collisions, and handle player movement.
+   *
+   * @param seconds The number of seconds that have elapsed since the last <code>update</code>
+   *      call.
+   */
+  public void update(double seconds) {
+    updateProjectiles(seconds);
+    removeDroppedDodgeballs();
+
+    for (Player player : hitPlayers()) {
+      player.onDodgeballHit();
+    }
+
+    // Deal with player inputs
+    for (Player player : players) {
+      handlePlayerInput(player);
+    }
+  }
+
+  /**
+   * Track projectile motion for all dodgeballs and jumping players.
+   *
+   * @param seconds The number of seconds elapsed since the last call to
+   *      <code>updateProjectiles</code>.
+   */
+  private void updateProjectiles(double seconds) {
+    for (Player player : players) {
+      collManager.remove(player);
+      collManager.add(player);
+      player.update(seconds);
+    }
+
+    for (Dodgeball dodgeball : dodgeballs) {
+      dodgeball.update(seconds);
+    }
+  }
+
+  /**
+   * Remove all dodgeballs that have fallen below ground level.
+   */
+  private void removeDroppedDodgeballs() {
+    List<Dodgeball> removables = new ArrayList<Dodgeball>();
+    for (Dodgeball dodgeball : dodgeballs) {
+      if (!dodgeball.aboveGround()) {
+        removables.add(dodgeball);
+      }
+    }
+    removables.removeAll(removables);
+  }
+
+  private List<Player> hitPlayers() {
+    List<Dodgeball> removables = new ArrayList<Dodgeball>();
+    List<Player> hit = new ArrayList<Player>();
+    for (Dodgeball dodgeball : dodgeballs) {
+      Hitbox3[] collisions = collManager.collisions(dodgeball.position());
+      for (Hitbox3 hitbox : collisions) {
+        if (hitbox instanceof Player && dodgeball.thrower != hitbox) {
+          hit.add((Player) hitbox);
+          removables.add(dodgeball);
+          break;
+        }
+      }
+    }
+    dodgeballs.removeAll(removables);
+    return hit;
+  }
+
+  private void handlePlayerInput(Player player) {
+    InputData data = player.inputData();
+
+    // Deal with movement.
+    int forward = 0;
+    if (data.wdown()) {
+      forward++;
+    }
+    if (data.sdown()) {
+      forward--;
+    }
+    int right = 0;
+    if (data.ddown()) {
+      right++;
+    }
+    if (data.adown()) {
+      right--;
+    }
+    Vector2 moveVelocity = new Vector2(forward, right);
+    moveVelocity = moveVelocity.unit();
+    moveVelocity = moveVelocity.multiply(0.033 * Player.WALK_SPEED);
+
+    if (data.spaceDown()) {
+      player.jump(moveVelocity.xcoord, moveVelocity.ycoord);
+    } else {
+      player.move(moveVelocity.xcoord, moveVelocity.ycoord);
+    }
+
+    // Deal with look vectors.
+    double yaw = data.mouseX() / 50.0;
+    double pitch = data.mouseY() / 50.0;
+    player.rotate(yaw, pitch);
+
+    // Throw dodgeballs
+    if (data.throwingDodgeball()) {
+      // Throw the dodgeball
+      Vector3 velocity = player.lookVector().multiply(Player.THROW_STRENGTH);
+      Dodgeball ball = new Dodgeball(player.headPosition(), velocity, player);
+      dodgeballs.add(ball);
+      // Prevent double-throws
+      data.setThrowingDodgeball(false);
     }
   }
 }
