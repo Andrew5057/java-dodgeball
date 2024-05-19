@@ -98,24 +98,24 @@ public class GameManager implements Runnable {
 
       // Deal with movement.
       int forward = 0;
-      if (data.w()) {
+      if (data.wdown()) {
         forward++;
       }
-      if (data.s()) {
+      if (data.sdown()) {
         forward--;
       }
       int right = 0;
-      if (data.d()) {
+      if (data.ddown()) {
         right++;
       }
-      if (data.a()) {
+      if (data.adown()) {
         right--;
       }
       Vector2 moveVelocity = new Vector2(forward, right);
       moveVelocity = moveVelocity.unit();
       moveVelocity = moveVelocity.multiply(0.033 * Player.WALK_SPEED);
 
-      if (data.space()) {
+      if (data.spaceDown()) {
         player.jump(moveVelocity.xcoord, moveVelocity.ycoord);
       } else {
         player.move(moveVelocity.xcoord, moveVelocity.ycoord);

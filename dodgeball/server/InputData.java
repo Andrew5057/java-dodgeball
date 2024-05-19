@@ -7,44 +7,47 @@ package dodgeball.server;
  * @version 3-8-2024
  */
 public class InputData {
-  private boolean w;
-  private boolean a;
-  private boolean s;
-  private boolean d;
-  private boolean space;
+  private boolean wdown;
+  private boolean adown;
+  private boolean sdown;
+  private boolean ddown;
+  private boolean spaceDown;
   private double mouseX;
   private double mouseY;
   private boolean throwingDodgeball;
 
+  /**
+   * Construct a new input data bank with all values set to 0 or <code>false</code>.
+   */
   public InputData() {
-    w = false;
-    a = false;
-    s = false;
-    d = false;
-    space = false;
+    wdown = false;
+    adown = false;
+    sdown = false;
+    ddown = false;
+    spaceDown = false;
     mouseX = 0;
     mouseY = 0;
     throwingDodgeball = false;
   }
   
-  public boolean w() {
-    return w;
+  public boolean wdown() {
+    return wdown;
   }
 
-  public boolean a() {
-    return a;
+  public boolean adown() {
+    return adown;
   }
 
-  public boolean s() {
-    return s;
+  public boolean sdown() {
+    return sdown;
   }
 
-  public boolean d() {
-    return d;
+  public boolean ddown() {
+    return ddown;
   }
 
-  public boolean space() {
-    return space;
+  public boolean spaceDown() {
+    return spaceDown;
   }
 
   public double mouseX() {
@@ -59,24 +62,24 @@ public class InputData {
     return throwingDodgeball;
   }
 
-  public void setW(boolean wDown) {
-    w = wDown;
+  public void setW(boolean wdown) {
+    this.wdown = wdown;
   }
 
-  public void setA(boolean aDown) {
-    a = aDown;
+  public void setA(boolean adown) {
+    this.adown = adown;
   }
 
-  public void setS(boolean sDown) {
-    s = sDown;
+  public void setS(boolean sdown) {
+    this.sdown = sdown;
   }
 
-  public void setD(boolean dDown) {
-    d = dDown;
+  public void setD(boolean ddown) {
+    this.ddown = ddown;
   }
 
   public void setSpace(boolean spaceDown) {
-    space = spaceDown;
+    this.spaceDown = spaceDown;
   }
 
   public void setMouseX(double mouseX) {

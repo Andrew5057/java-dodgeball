@@ -140,8 +140,8 @@ public class GameWindow extends Frame {
    * @param y The amount the Camera should be translated in the y direction.
    * @param z The amount the Camera should be translated in the z direction.
    */
-  public void translateCamera(double x, double y, double zcoord) {
-    camera.translate(new Vector3(x, y, zcoord));
+  public void translateCamera(double x, double y, double z) {
+    camera.translate(new Vector3(x, y, z));
   }
 
   /**

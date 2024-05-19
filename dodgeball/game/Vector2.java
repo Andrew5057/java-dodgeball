@@ -24,9 +24,9 @@ public final class Vector2 {
    * Instantiate a new Vector2. x and y represent the components of the vector parallel to i and j,
    * respectively.
    */
-  public Vector2(double x, double ycoord) {
-    this.xcoord = x;
-    this.ycoord = y;
+  public Vector2(double xcoord, double ycoord) {
+    this.xcoord = xcoord;
+    this.ycoord = ycoord;
   }
 
   /**
