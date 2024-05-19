@@ -61,8 +61,8 @@ public class GameManager implements Runnable {
     new Thread(daemon).start();
     long time = System.currentTimeMillis();
     while (true) {
+      long ping = System.currentTimeMillis() - time;
       try {
-        long ping = System.currentTimeMillis() - time;
         if (ping < 33) {
           Thread.sleep(33 - ping);
         }
@@ -71,7 +71,7 @@ public class GameManager implements Runnable {
         return;
       }
       time = System.currentTimeMillis();
-      update(0.033);
+      update(0.001 * ping);
     }
   }
 
