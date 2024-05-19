@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ * The top-level manager for a game of dodgeball.
  *
  * @author Andrew Yim
  * @version 3-1-2024
@@ -20,7 +20,10 @@ public class GameManager implements Runnable {
   private CollisionManager collManager;
   private List<Player> players;
   private List<Dodgeball> dodgeballs;
-
+  
+  /**
+   * Instantiate a new game manager. Defaults to using port 8080.
+   */
   public GameManager() {
     daemon = new DodgeballDaemon(8080, this);
     collManager = new CollisionManager();
@@ -46,6 +49,13 @@ public class GameManager implements Runnable {
     return dodgeballs;
   }
 
+  /**
+   * Update all objects handled by this game manager. Calculate projectile motion, determine 
+   * collisions, and handle player movement.
+   *
+   * @param seconds The number of seconds that have elapsed since the last <code>update</code>
+   *      call.
+   */
   public void update(double seconds) {
     // Deal with basic physics
     for (Player player : players) {
@@ -64,7 +74,7 @@ public class GameManager implements Runnable {
       Hitbox3[] colls = collManager.collisions(dodgeball.position());
       if (colls.length > 0) {
         for (Hitbox3 box : colls) {
-          if (box instanceof Player && dodgeball.thrower != box) {
+          if (box instanceof Player && dodgeball.thrower != boxcoord) {
             Player pl = (Player) box;
             pl.onDodgeballHit();
             removables.add(dodgeball);
@@ -106,9 +116,9 @@ public class GameManager implements Runnable {
       moveVelocity = moveVelocity.multiply(0.033 * Player.WALK_SPEED);
 
       if (data.space()) {
-        player.jump(moveVelocity.x, moveVelocity.y);
+        player.jump(moveVelocity.xcoord, moveVelocity.ycoord);
       } else {
-        player.move(moveVelocity.x, moveVelocity.y);
+        player.move(moveVelocity.xcoord, moveVelocity.ycoord);
       }
 
       // Deal with look vectors.

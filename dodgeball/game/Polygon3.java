@@ -12,9 +12,9 @@ import java.awt.Color;
  * @version 11-12-2023
  */
 public class Polygon3 implements Cloneable {
-  private double[] xCoords;
-  private double[] yCoords;
-  private double[] zCoords;
+  private double[] xcoords;
+  private double[] ycoords;
+  private double[] zcoords;
   private int length;
   private Color color;
   private Vector3[] points;
@@ -24,15 +24,15 @@ public class Polygon3 implements Cloneable {
    */
   public Polygon3(Vector3[] points, Color color) {
     this.length = points.length;
-    xCoords = new double[length];
-    yCoords = new double[length];
-    zCoords = new double[length];
+    xcoords = new double[length];
+    ycoords = new double[length];
+    zcoords = new double[length];
     this.points = points.clone();
     for (int i = 0; i < length; i++) {
       Vector3 point = points[i];
-      xCoords[i] = point.x;
-      yCoords[i] = point.y;
-      zCoords[i] = point.z;
+      xcoords[i] = point.xcoord;
+      ycoords[i] = point.ycoord;
+      zcoords[i] = point.zcoord;
     }
     this.color = color;
   }
@@ -54,9 +54,65 @@ public class Polygon3 implements Cloneable {
   }
 
   /**
+   * Sort an array of Polygon3s in descending order of min-z coordinates. Non-destructive; any
+   * Polygon3s passed as part of the array will be cloned rather than referenced.
+   *
+   * @param polygons An array containing the polygons to be sorted.
+   */
+  public static Polygon3[] sort(Polygon3[] polygons) {
+    // qSort works on polgyons itself - if we don't clone the parameter, it'll get
+    // sorted directly
+    Polygon3[] polys = polygons.clone();
+    sort(polys, 0, polys.length - 1);
+    return polys;
+  }
+
+  /**
+   * An in-place QuickSort algorithm that is called internally by <code>sort</code>.
+   */
+  private static void sort(Polygon3[] polygons, int start, int end) {
+    if (start >= end) {
+      return;
+    }
+
+    int index = start; // Represents the index of the next known item that is ready to be swapped
+    // Select a pivot at random - other implementations call for multiple pivots,
+    // but this should
+    // be sufficient for our purposes.
+    int pivotIndex = (int) (Math.random() * (end - start + 1)) + start;
+    double pivot = polygons[pivotIndex].minZ();
+
+    Polygon3 temp = polygons[pivotIndex];
+    polygons[pivotIndex] = polygons[end];
+    polygons[end] = temp;
+    for (int i = start; i < end; i++) {
+      if (polygons[i].minZ() >= pivot) {
+        temp = polygons[i];
+        polygons[i] = polygons[index];
+        polygons[index] = temp;
+        index++;
+      }
+    }
+    temp = polygons[index];
+    polygons[index] = polygons[end];
+    polygons[end] = temp;
+    sort(polygons, start, index - 1); // Resort left partition
+    sort(polygons, index + 1, end); // Resort right partition
+  }
+
+  @Override
+  public String toString() {
+    String str = "Polygon3:\nColor: " + color;
+    for (int i = 0; i < length; i++) {
+      str += "\n" + points[i].toString();
+    }
+    return str;
+  }
+
+  /**
    * Get the number of points the Polygon3 is composed of.
-   * 
-   * @return The number of vertices in the Polygon3 as an int.
+   *
+   * @return The number of vertices in the Polygon3 as an <code>int</code>.
    */
   public int length() {
     return length;
@@ -65,38 +121,34 @@ public class Polygon3 implements Cloneable {
   /**
    * Get an array containing the Polygon3's x-coordinates.
    *
-   * @return A new double[] containing the Polygon3's x-coordinates in sequential
-   *         order.
+   * @return A new double[] containing the Polygon3's x-coordinates in sequential order.
    */
-  public double[] xCoords() {
-    return xCoords.clone();
+  public double[] xcoords() {
+    return xcoords.clone();
   }
 
   /**
    * Get an array containing the Polygon3's y-coordinates.
    *
-   * @return A new double[] containing the Polygon3's y-coordinates in sequential
-   *         order.
+   * @return A new double[] containing the Polygon3's y-coordinates in sequential order.
    */
-  public double[] yCoords() {
-    return yCoords.clone();
+  public double[] ycoords() {
+    return ycoords.clone();
   }
 
   /**
    * Get an array containing the Polygon3's z-coordinates.
    *
-   * @return A new double[] containing the Polygon3's z-coordinates in sequential
-   *         order.
+   * @return A new double[] containing the Polygon3's z-coordinates in sequential order.
    */
-  public double[] zCoords() {
-    return zCoords.clone();
+  public double[] zcoords() {
+    return zcoords.clone();
   }
 
   /**
    * Get an array containing the Polygon3's vertices.
    *
-   * @return A new Vector3[] containing the Polygon3's vertices in sequential
-   *         order.
+   * @return A new Vector3[] containing the Polygon3's vertices in sequential order.
    */
   public Vector3[] points() {
     return points.clone();
@@ -137,15 +189,14 @@ public class Polygon3 implements Cloneable {
   /**
    * Translate every point in the Polygon3 by a certain displacement amount.
    *
-   * @param displacement The desired change in x, y, and z, respectively, as a
-   *                     Vector3.
+   * @param displacement The desired change in x, y, and z, respectively, as a Vector3.
    */
   public void translate(Vector3 displacement) {
     for (int i = 0; i < length; i++) {
       points[i] = points[i].add(displacement);
-      xCoords[i] = points[i].x;
-      yCoords[i] = points[i].y;
-      zCoords[i] = points[i].z;
+      xcoords[i] = points[i].xcoord;
+      ycoords[i] = points[i].ycoord;
+      zcoords[i] = points[i].zcoord;
     }
   }
 
@@ -166,14 +217,14 @@ public class Polygon3 implements Cloneable {
     double zf;
     for (int i = 0; i < length; i++) {
       vecFromC = points[i].subtract(center);
-      x0 = vecFromC.x;
-      z0 = vecFromC.z;
+      x0 = vecFromC.xcoord;
+      z0 = vecFromC.zcoord;
       xf = x0 * cosYaw + z0 * sinYaw;
       zf = -x0 * sinYaw + z0 * cosYaw;
-      points[i] = new Vector3(xf, vecFromC.y, zf).add(center);
-      xCoords[i] = points[i].x;
-      yCoords[i] = points[i].y;
-      zCoords[i] = points[i].z;
+      points[i] = new Vector3(xf, vecFromC.ycoord, zf).add(center);
+      xcoords[i] = points[i].xcoord;
+      ycoords[i] = points[i].ycoord;
+      zcoords[i] = points[i].zcoord;
     }
   }
 
@@ -193,15 +244,15 @@ public class Polygon3 implements Cloneable {
     double zf;
     for (int i = 0; i < length; i++) {
       vecFromC = points[i].subtract(center);
-      x0 = vecFromC.x;
-      z0 = vecFromC.z;
+      x0 = vecFromC.xcoord;
+      z0 = vecFromC.zcoord;
       xf = x0 * cosYaw + z0 * sinYaw;
       zf = -x0 * sinYaw + z0 * cosYaw;
-      finalVec = new Vector3(xf, vecFromC.y, zf).add(center);
+      finalVec = new Vector3(xf, vecFromC.ycoord, zf).add(center);
       points[i] = finalVec;
-      xCoords[i] = points[i].x;
-      yCoords[i] = points[i].y;
-      zCoords[i] = points[i].z;
+      xcoords[i] = points[i].xcoord;
+      ycoords[i] = points[i].ycoord;
+      zcoords[i] = points[i].zcoord;
     }
   }
 
@@ -211,10 +262,10 @@ public class Polygon3 implements Cloneable {
    * @return The minimum x-value of all the Polygon3's vertices as a double.
    */
   public double minX() {
-    double x = points[0].x;
+    double x = points[0].xcoord;
     for (int i = 1; i < points.length; i++) {
-      if (points[i].x < x) {
-        x = points[i].x;
+      if (points[i].xcoord < x) {
+        x = points[i].xcoord;
       }
     }
     return x;
@@ -226,10 +277,10 @@ public class Polygon3 implements Cloneable {
    * @return The maximum x-value of all the Polygon3's vertices as a double.
    */
   public double maxX() {
-    double x = points[0].x;
+    double x = points[0].xcoord;
     for (int i = 1; i < points.length; i++) {
-      if (points[i].x > x) {
-        x = points[i].x;
+      if (points[i].xcoord > x) {
+        x = points[i].xcoord;
       }
     }
     return x;
@@ -241,10 +292,10 @@ public class Polygon3 implements Cloneable {
    * @return The minimum y-value of all the Polygon3's vertices as a double.
    */
   public double minY() {
-    double y = points[0].y;
+    double y = points[0].ycoord;
     for (int i = 1; i < points.length; i++) {
-      if (points[i].y < y) {
-        y = points[i].y;
+      if (points[i].ycoord < y) {
+        y = points[i].ycoord;
       }
     }
     return y;
@@ -256,10 +307,10 @@ public class Polygon3 implements Cloneable {
    * @return The maximum y-value of all the Polygon3's vertices as a double.
    */
   public double maxY() {
-    double y = points[0].y;
+    double y = points[0].ycoord;
     for (int i = 1; i < points.length; i++) {
-      if (points[i].y > y) {
-        y = points[i].y;
+      if (points[i].ycoord > y) {
+        y = points[i].ycoord;
       }
     }
     return y;
@@ -271,10 +322,10 @@ public class Polygon3 implements Cloneable {
    * @return The minimum z-value of all the Polygon3's vertices as a double.
    */
   public double minZ() {
-    double z = points[0].z;
+    double z = points[0].zcoord;
     for (int i = 1; i < points.length; i++) {
-      if (points[i].z < z) {
-        z = points[i].z;
+      if (points[i].zcoord < z) {
+        z = points[i].zcoord;
       }
     }
     return z;
@@ -286,18 +337,17 @@ public class Polygon3 implements Cloneable {
    * @return The maximum z-value of all the Polygon3's vertices as a double.
    */
   public double maxZ() {
-    double z = points[0].z;
+    double z = points[0].zcoord;
     for (int i = 1; i < points.length; i++) {
-      if (points[i].z > z) {
-        z = points[i].z;
+      if (points[i].zcoord > z) {
+        z = points[i].zcoord;
       }
     }
     return z;
   }
 
   /**
-   * Returns a double[] containing the min x, max x, min y, max y, min z, and max
-   * z coordinates of
+   * Returns a double[] containing the min x, max x, min y, max y, min z, and max z coordinates of
    * the Polygon3 in that order.
    *
    * @return A double array whose elements are min-x, max-x, min-y, max-y, min-z,
@@ -305,94 +355,34 @@ public class Polygon3 implements Cloneable {
    */
   public double[] bounds() {
     Vector3 firstPoint = points[0];
-    double minX = firstPoint.x;
+    double minX = firstPoint.xcoord;
     double maxX = minX;
-    double minY = firstPoint.y;
+    double minY = firstPoint.ycoord;
     double maxY = minY;
-    double minZ = firstPoint.z;
-    double maxZ = firstPoint.z;
+    double minZ = firstPoint.zcoord;
+    double maxZ = firstPoint.zcoord;
     Vector3 point;
     for (int i = 1; i < points.length; i++) {
       point = points[i];
-      if (point.x < minX) {
-        minX = point.x;
+      if (point.xcoord < minX) {
+        minX = point.xcoord;
       }
-      if (point.x > maxX) {
-        maxX = point.x;
+      if (point.xcoord > maxX) {
+        maxX = point.xcoord;
       }
-      if (point.y < minY) {
-        minY = point.y;
+      if (point.ycoord < minY) {
+        minY = point.ycoord;
       }
-      if (point.y > maxY) {
-        maxY = point.y;
+      if (point.ycoord > maxY) {
+        maxY = point.ycoord;
       }
-      if (point.z < minZ) {
-        minZ = point.z;
+      if (point.zcoord < minZ) {
+        minZ = point.zcoord;
       }
-      if (point.z > maxZ) {
-        maxZ = point.z;
+      if (point.zcoord > maxZ) {
+        maxZ = point.zcoord;
       }
     }
     return new double[] { minX, maxX, minY, maxY, minZ, maxZ };
-  }
-
-  // =========================STATICS=========================
-
-  /**
-   * Sort an array of Polygon3s in descending order of min-z coordinates.
-   * Non-destructive; any
-   * Polygon3s passed as part of the array will be cloned rather than referenced.
-   *
-   * @param polygons An array containing the polygons to be sorted.
-   */
-  public static Polygon3[] sort(Polygon3[] polygons) {
-    // qSort works on polgyons itself - if we don't clone the parameter, it'll get
-    // sorted directly
-    Polygon3[] polys = polygons.clone();
-    sort(polys, 0, polys.length - 1);
-    return polys;
-  }
-
-  /**
-   * An in-place QuickSort algorithm that is called internally by
-   * <code>sort</code>.
-   */
-  private static void sort(Polygon3[] polygons, int start, int end) {
-    if (start >= end) {
-      return;
-    }
-
-    int index = start; // Represents the index of the next known item that is ready to be swapped
-    // Select a pivot at random - other implementations call for multiple pivots,
-    // but this should
-    // be sufficient for our purposes.
-    int pivotIndex = (int) (Math.random() * (end - start + 1)) + start;
-    double pivot = polygons[pivotIndex].minZ();
-
-    Polygon3 temp = polygons[pivotIndex];
-    polygons[pivotIndex] = polygons[end];
-    polygons[end] = temp;
-    for (int i = start; i < end; i++) {
-      if (polygons[i].minZ() >= pivot) {
-        temp = polygons[i];
-        polygons[i] = polygons[index];
-        polygons[index] = temp;
-        index++;
-      }
-    }
-    temp = polygons[index];
-    polygons[index] = polygons[end];
-    polygons[end] = temp;
-    sort(polygons, start, index - 1); // Resort left partition
-    sort(polygons, index + 1, end); // Resort right partition
-  }
-
-  @Override
-  public String toString() {
-    String str = "Polygon3:\nColor: " + color;
-    for (int i = 0; i < length; i++) {
-      str += "\n" + points[i].toString();
-    }
-    return str;
   }
 }

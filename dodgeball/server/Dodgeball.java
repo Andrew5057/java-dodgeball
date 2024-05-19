@@ -24,6 +24,6 @@ public class Dodgeball extends Projectile3 {
    *      otherwise.
    */
   public boolean aboveGround() {
-    return position().y >= 0;
+    return position().ycoord >= 0;
   }
 }

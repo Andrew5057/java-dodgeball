@@ -25,6 +25,9 @@ public class Player extends EllipsoidBox3 {
   private Projectile3 jumpTrajectory;
   private InputData inputData;
 
+  /**
+   * Create a new player at the origin.
+   */
   public Player() {
     super(DIMENSIONS, new Vector3(0, HEIGHT / 2.0, 0));
     feetLocation = Vector3.ZERO;
@@ -32,11 +35,16 @@ public class Player extends EllipsoidBox3 {
     inputData = new InputData();
   }
 
-  public Player(Vector3 position, InputData inputData) {
+  /**
+   * Create a new player with a given position.
+   *
+   * @param position The player's position in 3D space.
+   */
+  public Player(Vector3 position) {
     super(DIMENSIONS, position);
     this.feetLocation = position.add(new Vector3(0, -HEIGHT / 2.0, 0));
     lookVector = Vector3.I;
-    this.inputData = inputData;
+    this.inputData = new InputData();
   }
 
   public Vector3 headPosition() {
@@ -51,14 +59,19 @@ public class Player extends EllipsoidBox3 {
     return inputData;
   }
 
+  /**
+   * Determine the player's position a given number of seconds into the future if they are jumping.
+   *
+   * @param seconds The number of seconds elapsed since the last call to <code>update</code>.
+   */
   public void update(double seconds) {
     if (jumpTrajectory == null) {
       return;
     }
     jumpTrajectory.update(seconds);
     Vector3 newPos = jumpTrajectory.position();
-    if (newPos.y <= 0) {
-      feetLocation = new Vector3(newPos.x, 0, newPos.z);
+    if (newPos.ycoord <= 0) {
+      feetLocation = new Vector3(newPos.xcoord, 0, newPos.zcoord);
       jumpTrajectory = null;
     } else {
       feetLocation = newPos;
@@ -66,6 +79,12 @@ public class Player extends EllipsoidBox3 {
     center = newPos.add(new Vector3(0, HEIGHT / 2, 0));
   }
 
+  /**
+   * Move the player a given number of units unless they are jumping.
+   *
+   * @param x The number of units to move in the x-direction.
+   * @param z The number of units to move in the z-direction.
+   */
   public void move(double x, double z) {
     if (jumpTrajectory != null) {
       return;
@@ -74,14 +93,20 @@ public class Player extends EllipsoidBox3 {
     center = feetLocation.add(new Vector3(0, HEIGHT / 2.0, 0));
   }
 
-  public void jump(double xVelocity, double zVelocity) {
+  /**
+   * Start the player's jumping motion if they are not already jumping. Accounts for inertia.
+   *
+   * @param xvelocity How fast the player is already moving in the x-direction.
+   * @param zvelocity How fast the player is already moving in the z-direction.
+   */
+  public void jump(double xvelocity, double zvelocity) {
     if (jumpTrajectory != null) {
       return;
     }
 
     // Fine-tune, either here or in GameManager
     jumpTrajectory = new Projectile3(feetLocation,
-        new Vector3(xVelocity, zVelocity, JUMP_POWER));
+        new Vector3(xvelocity, zvelocity, JUMP_POWER));
   }
 
   public void rotate(double yaw, double pitch) {

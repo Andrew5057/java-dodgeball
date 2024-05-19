@@ -11,15 +11,15 @@ public final class Vector3 {
   /**
    * The component of the Vector3 parallel to the x-axis.
    */
-  public final double x;
+  public final double xcoord;
   /**
    * The component of the Vector3 parallel to the y-axis.
    */
-  public final double y;
+  public final double ycoord;
   /**
    * The component of the Vector3 parallel to the z-axis.
    */
-  public final double z;
+  public final double zcoord;
 
   private double length;
 
@@ -30,39 +30,39 @@ public final class Vector3 {
    * parallel to i, j,
    * and k respectively.
    */
-  public Vector3(double x, double y, double z) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
+  public Vector3(double xcoord, double ycoord, double zcoord) {
+    this.xcoord = xcoord;
+    this.ycoord = ycoord;
+    this.zcoord = zcoord;
   }
 
   /**
-   * Convert a Vector2 to a Vector3. X and Y will be preserved; Z will be set to
+   * Convert a Vector2 to a Vector3. X and Y will be preserved as X and Z; Y will be set to
    * 0.
    */
   public Vector3(Vector2 vector) {
-    x = vector.x;
-    y = vector.y;
-    z = 0;
+    xcoord = vector.xcoord;
+    ycoord = 0;
+    zcoord = vector.ycoord;
   }
 
   /**
-   * toString method for Vector3. Returns a string in the form "Vector3(x, y, z)".
+   * toString method for Vector3. Returns a string in the form "Vector3(x, y, zcoord)".
    *
-   * @return "Vector3(x, y, z)", where x, y, and z are <code>this</code>'s x, y,
+   * @return "Vector3(x, y, zcoord)", where x, y, and z are <code>this</code>'s x, y,
    *         and z values,
    *         respectively.
    */
   @Override
   public String toString() {
-    return "Vector3(" + x + ", " + y + ", " + z + ")";
+    return "Vector3(" + xcoord + ", " + ycoord + ", " + zcoord + ")";
   }
 
   /**
    * Convert a Vector3 to a Vector2. X and Z will be preserved; Y will be ignored.
    */
   public Vector2 flatten() {
-    return new Vector2(x, z);
+    return new Vector2(xcoord, zcoord);
   }
 
   /**
@@ -74,7 +74,7 @@ public final class Vector3 {
     if (lengthKnown) { // Dynamic programming go brrrrrr
       return length;
     }
-    length = Math.sqrt(x * x + y * y + z * z);
+    length = Math.sqrt(xcoord * xcoord + ycoord * ycoord + zcoord * zcoord);
     lengthKnown = true;
     return length;
   }
@@ -103,7 +103,7 @@ public final class Vector3 {
    *         <code>false</code> otherwise.
    */
   public boolean equals(Vector3 vector) {
-    return (x == vector.x && y == vector.y && z == vector.z);
+    return (xcoord == vector.xcoord && ycoord == vector.ycoord && zcoord == vector.zcoord);
   }
 
   /**
@@ -116,11 +116,11 @@ public final class Vector3 {
    *         otherwise.
    */
   public boolean isParallel(Vector3 vector) {
-    double r = x / vector.x;
-    if (Math.abs(y / vector.y - r) > 0.00001d) {
+    double r = xcoord / vector.xcoord;
+    if (Math.abs(ycoord / vector.ycoord - r) > 0.00001d) {
       return false;
     }
-    if (Math.abs(y / vector.z - r) > 0.00001d) {
+    if (Math.abs(zcoord / vector.zcoord - r) > 0.00001d) {
       return false;
     }
     return true;
@@ -148,7 +148,7 @@ public final class Vector3 {
    * @return The sum <code>this + vector</code> as a Vector3.
    */
   public Vector3 add(Vector3 vector) {
-    return new Vector3(x + vector.x, y + vector.y, z + vector.z);
+    return new Vector3(xcoord + vector.xcoord, ycoord + vector.ycoord, zcoord + vector.zcoord);
   }
 
   /**
@@ -162,7 +162,7 @@ public final class Vector3 {
    * @return The difference <code>this - vector</code> as a Vector3.
    */
   public Vector3 subtract(Vector3 vector) {
-    return new Vector3(x - vector.x, y - vector.y, z - vector.z);
+    return new Vector3(xcoord - vector.xcoord, ycoord - vector.ycoord, zcoord - vector.zcoord);
   }
 
   /**
@@ -174,7 +174,7 @@ public final class Vector3 {
    * @return The product <code>factor(this)</code> as a Vector3.
    */
   public Vector3 multiply(double factor) {
-    return new Vector3(factor * x, factor * y, factor * z);
+    return new Vector3(factor * xcoord, factor * ycoord, factor * zcoord);
   }
 
   /**
@@ -198,7 +198,7 @@ public final class Vector3 {
    * @return The dot product <code>this ⋅ vector</code> as an double.
    */
   public double dot(Vector3 vector) {
-    return x * vector.x + y * vector.y + z * vector.z;
+    return xcoord * vector.xcoord + ycoord * vector.ycoord + zcoord * vector.zcoord;
   }
 
   /**
@@ -214,8 +214,8 @@ public final class Vector3 {
    * @return The cross product <code>this x vector</code> as a Vector3.
    */
   public Vector3 cross(Vector3 vector) {
-    return new Vector3(y * vector.z - z * vector.y, z * vector.x - x * vector.z,
-        x * vector.y - y * vector.x);
+    return new Vector3(ycoord * vector.zcoord - zcoord * vector.ycoord, zcoord * vector.xcoord
+        - xcoord * vector.zcoord, xcoord * vector.ycoord - ycoord * vector.xcoord);
   }
 
   /**

@@ -19,7 +19,14 @@ public class ClientHandler implements Runnable {
   private DataInputStream input;
   private DataOutputStream output;
 
-  public ClientHandler(GameManager manager, Socket socket, Player player) throws IOException {
+  /**
+   * Construct a new client handler.
+   *
+   * @param manager The <code>dodgeball.server.GameManager</code> that spawned this handler.
+   * @param socket The <code>jave.net.Socket</code> that this handler should use to communicate.
+   * @param player The <code>dodgeball.server.Player</code> that this handler handles.
+   */
+  public ClientHandler(GameManager manager, Socket socket, Player player) {
     this.player = player;
     this.manager = manager;
     this.socket = socket;
@@ -109,13 +116,13 @@ public class ClientHandler implements Runnable {
   }
   
   private void writeVector3(Vector3 vector) throws IOException {
-    output.writeDouble(vector.x);
-    output.writeDouble(vector.y);
-    output.writeDouble(vector.z);
+    output.writeDouble(vector.xcoord);
+    output.writeDouble(vector.ycoord);
+    output.writeDouble(vector.zcoord);
   }
 
   private void writeVector2(Vector2 vector) throws IOException {
-    output.writeDouble(vector.x);
-    output.writeDouble(vector.y);
+    output.writeDouble(vector.xcoord);
+    output.writeDouble(vector.ycoord);
   }
 }

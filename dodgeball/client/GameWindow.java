@@ -140,8 +140,8 @@ public class GameWindow extends Frame {
    * @param y The amount the Camera should be translated in the y direction.
    * @param z The amount the Camera should be translated in the z direction.
    */
-  public void translateCamera(double x, double y, double z) {
-    camera.translate(new Vector3(x, y, z));
+  public void translateCamera(double x, double y, double zcoord) {
+    camera.translate(new Vector3(x, y, zcoord));
   }
 
   /**
@@ -174,8 +174,8 @@ public class GameWindow extends Frame {
     Vector3 point;
     for (int i = 0; i < xcoords.length; i++) {
       point = polygon.point(i);
-      xcoords[i] = (int) (point.x * scaleFactorX) + halfWidth;
-      ycoords[i] = halfHeight - (int) (point.y * scaleFactorY);
+      xcoords[i] = (int) (point.xcoord * scaleFactorX) + halfWidth;
+      ycoords[i] = halfHeight - (int) (point.ycoord * scaleFactorY);
     }
     return new Object[] { xcoords, ycoords, polygon.color() };
   }

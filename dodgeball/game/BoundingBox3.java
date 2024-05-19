@@ -42,7 +42,7 @@ public class BoundingBox3 extends RectangleBox3 {
     if (volumeKnown) {
       return volume;
     }
-    volume = dimensions.x * dimensions.y * dimensions.z;
+    volume = dimensions.xcoord * dimensions.ycoord * dimensions.zcoord;
     volumeKnown = true;
     return volume;
   }

@@ -40,8 +40,8 @@ public class SphereBox3 extends Hitbox3 {
    * @param z The z coordinate of the point.
    */
   @Override
-  public boolean contains(double x, double y, double z) {
-    return contains(new Vector3(x, y, z));
+  public boolean contains(double x, double y, double zcoord) {
+    return contains(new Vector3(x, y, zcoord));
   }
   
   @Override

@@ -34,6 +34,38 @@ public class Camera {
     this(new Vector3(positionX, positionY, positionZ),
         new Vector3(directionX, directionY, directionZ));
   }
+  
+  /**
+   * Rotate the Vector3 about the origin. Only available along the pitch (up-down)
+   * and yaw (left-right) axes. Pitch is limited to +-45 degrees.
+   *
+   * @param yaw   The number of degrees to yaw (side-side) by.
+   * @param pitch The number of degrees to pitch (up-down) by.
+   */
+  public static Vector3 rotateLookVector(Vector3 vector, double yaw, double pitch) {
+    yaw = Math.toRadians(yaw) * -1; // Shifts to clockwise instead of CCW rotation
+    pitch = Math.toRadians(pitch);
+
+    double baseLength = Math.sqrt(vector.xcoord * vector.xcoord + vector.ycoord * vector.ycoord);
+    double currPitch = Math.atan2(vector.ycoord, baseLength);
+
+    // Set the pitch, restricting it to a certain range
+    double newPitch = currPitch + pitch;
+    if (newPitch > Math.PI / 4.0) {
+      newPitch = Math.PI / 4.0;
+    } else if (newPitch < -Math.PI / 4.0) {
+      newPitch = -Math.PI / 4.0;
+    }
+    double newY = Math.tan(newPitch) * baseLength;
+
+    // Saves time in the next step
+    double sinYaw = Math.sin(yaw);
+    double cosYaw = Math.cos(yaw);
+    double newX = vector.xcoord * cosYaw + vector.zcoord * sinYaw;
+    double newZ = -vector.xcoord * sinYaw + vector.zcoord * cosYaw;
+
+    return new Vector3(newX, newY, newZ);
+  }
 
   /**
    * Get the Vector3 representing the Camera's x, y, and z coordinates.
@@ -81,8 +113,8 @@ public class Camera {
    * Set the Camera's look vector, given a Vector3 object that represents its new
    * x, y, and z.
    *
-   * @param position A Vector3 containing the desired x, y, and z coordinates,
-   *                 respectively.
+   * @param direction A Vector3 containing the desired x, y, and z coordinates
+   *      of the direction, respectively.
    */
   public void setDirection(Vector3 direction) {
     this.direction = direction.unit();
@@ -140,9 +172,10 @@ public class Camera {
     // comparatively, it's ok to square all the depth values and save ourselves the
     // time of
     // square rooting the values.
-    double depth = compVector.x * compVector.x + compVector.y * compVector.y + compVector.z * compVector.z;
+    double depth = compVector.xcoord * compVector.xcoord + compVector.ycoord * compVector.ycoord
+        + compVector.zcoord * compVector.zcoord;
     // Check if the point is behind the camera
-    if ((compVector.x <= 0) ^ (direction.x <= 0)) {
+    if ((compVector.xcoord <= 0) ^ (direction.xcoord <= 0)) {
       depth *= -1;
     }
 
@@ -176,38 +209,5 @@ public class Camera {
       renderedPolys[i] = render(model.polygon(i));
     }
     return renderedPolys;
-  }
-
-  // --------------------------STATICS------------------------------
-  /**
-   * Rotate the Vector3 about the origin. Only available along the pitch (up-down)
-   * and yaw (left-right) axes. Pitch is limited to +-45 degrees.
-   *
-   * @param yaw   The number of degrees to yaw (side-side) by.
-   * @param pitch The number of degrees to pitch (up-down) by.
-   */
-  public static Vector3 rotateLookVector(Vector3 vector, double yaw, double pitch) {
-    yaw = Math.toRadians(yaw) * -1; // Shifts to clockwise instead of CCW rotation
-    pitch = Math.toRadians(pitch);
-
-    double baseLength = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
-    double currPitch = Math.atan2(vector.y, baseLength);
-
-    // Set the pitch, restricting it to a certain range
-    double newPitch = currPitch + pitch;
-    if (newPitch > Math.PI / 4.0) {
-      newPitch = Math.PI / 4.0;
-    } else if (newPitch < -Math.PI / 4.0) {
-      newPitch = -Math.PI / 4.0;
-    }
-    double newY = Math.tan(newPitch) * baseLength;
-
-    // Saves time in the next step
-    double sinYaw = Math.sin(yaw);
-    double cosYaw = Math.cos(yaw);
-    double newX = vector.x * cosYaw + vector.z * sinYaw;
-    double newZ = -vector.x * sinYaw + vector.z * cosYaw;
-
-    return new Vector3(newX, newY, newZ);
   }
 }

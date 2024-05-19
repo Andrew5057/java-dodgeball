@@ -28,9 +28,9 @@ public class EllipsoidBox3 extends Hitbox3 {
    * @param z The z coordinate of the point.
    */
   public boolean contains(double x, double y, double z) {
-    return Math.pow(2.0 * (x - center.x) / dimensions.x, 2)
-        + Math.pow(2.0 * (y - center.y) / dimensions.y, 2)
-        + Math.pow(2.0 * (z - center.z) / dimensions.z, 2)
+    return Math.pow(2.0 * (x - center.xcoord) / dimensions.xcoord, 2)
+        + Math.pow(2.0 * (y - center.ycoord) / dimensions.ycoord, 2)
+        + Math.pow(2.0 * (z - center.zcoord) / dimensions.zcoord, 2)
         <= 1;
   }
 
@@ -40,12 +40,12 @@ public class EllipsoidBox3 extends Hitbox3 {
    * @param point The point as a Vector3.
    */
   public boolean contains(Vector3 point) {
-    return contains(point.x, point.y, point.z);
+    return contains(point.xcoord, point.ycoord, point.zcoord);
   }
   
   @Override
   public String toString() {
-    return "EllipsoidBox3\nDimensions: " + dimensions.x + ", " + dimensions.y + ", "
-        + dimensions.z + ")\n" + super.toString();
+    return "EllipsoidBox3\nDimensions: " + dimensions.xcoord + ", " + dimensions.ycoord + ", "
+        + dimensions.zcoord + ")\n" + super.toString();
   }
 }

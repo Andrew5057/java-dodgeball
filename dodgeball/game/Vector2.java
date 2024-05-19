@@ -10,11 +10,11 @@ public final class Vector2 {
   /**
    * The component of the Vector2 parallel to the x-axis.
    */
-  public final double x;
+  public final double xcoord;
   /**
    * The component of the Vector2 parallel to the y-axis.
    */
-  public final double y;
+  public final double ycoord;
 
   private double length;
 
@@ -24,20 +24,20 @@ public final class Vector2 {
    * Instantiate a new Vector2. x and y represent the components of the vector parallel to i and j,
    * respectively.
    */
-  public Vector2(double x, double y) {
-    this.x = x;
-    this.y = y;
+  public Vector2(double x, double ycoord) {
+    this.xcoord = x;
+    this.ycoord = y;
   }
 
   /**
-   * toString method for Vector2. Returns a string in the form "Vector2(x, y)".
+   * toString method for Vector2. Returns a string in the form "Vector2(x, ycoord)".
    *
-   * @return "Vector2(x, y)", where x, y are <code>this</code>'s x and y values,
+   * @return "Vector2(x, ycoord)", where x, y are <code>this</code>'s x and y values,
    *         respectively.
    */
   @Override
   public String toString() {
-    return "Vector2(" + x + ", " + y + ")";
+    return "Vector2(" + xcoord + ", " + ycoord + ")";
   }
 
   /**
@@ -49,7 +49,7 @@ public final class Vector2 {
     if (lengthKnown) { // Dynamic programming go brrrrrr
       return length;
     }
-    length = Math.sqrt(x * x + y * y);
+    length = Math.sqrt(xcoord * xcoord + ycoord * ycoord);
     lengthKnown = true;
     return length;
   }
@@ -76,7 +76,7 @@ public final class Vector2 {
    *         <code>false</code> otherwise.
    */
   public boolean equals(Vector2 vector) {
-    return (x == vector.x && y == vector.y);
+    return (xcoord == vector.xcoord && ycoord == vector.ycoord);
   }
 
   /**
@@ -88,8 +88,8 @@ public final class Vector2 {
    *         otherwise.
    */
   public boolean isParallel(Vector2 vector) {
-    double r = x / vector.x;
-    return Math.abs(y / vector.y - r) <= 0.00001d;
+    double r = xcoord / vector.xcoord;
+    return Math.abs(ycoord / vector.ycoord - r) <= 0.00001d;
   }
 
   /**
@@ -112,7 +112,7 @@ public final class Vector2 {
    * @return The sum <code>this + vector</code> as a Vector2.
    */
   public Vector2 add(Vector2 vector) {
-    return new Vector2(x + vector.x, y + vector.y);
+    return new Vector2(xcoord + vector.xcoord, ycoord + vector.ycoord);
   }
 
   /**
@@ -124,18 +124,18 @@ public final class Vector2 {
    * @return The difference <code>this - vector</code> as a Vector2.
    */
   public Vector2 subtract(Vector2 vector) {
-    return new Vector2(x - vector.x, y - vector.y);
+    return new Vector2(xcoord - vector.xcoord, ycoord - vector.ycoord);
   }
 
   /**
    * Determine the scalar product of a Vector2 and an double. The scalar product is a vector equal
-   * to (k*a, k*b) for a scalar k and a vector (x, y).
+   * to (k*a, k*b) for a scalar k and a vector (x, ycoord).
    *
    * @param factor The scalar factor to be multiplied with <code>this</code>.
    * @return The product <code>factor(this)</code> as a Vector2.
    */
   public Vector2 multiply(double factor) {
-    return new Vector2(factor * x, factor * y);
+    return new Vector2(factor * xcoord, factor * ycoord);
   }
 
   /**
@@ -157,7 +157,7 @@ public final class Vector2 {
    * @return The dot product <code>this ⋅ vector</code> as an double.
    */
   public double dot(Vector2 vector) {
-    return x * vector.x + y * vector.y;
+    return xcoord * vector.xcoord + ycoord * vector.ycoord;
   }
 
   /**

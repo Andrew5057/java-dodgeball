@@ -63,7 +63,7 @@ public abstract class Hitbox3 {
    * @return The minimum x-coordinate of the Hitbox3.
    */
   public double minX() {
-    return center.x - (dimensions.x / 2);
+    return center.xcoord - (dimensions.xcoord / 2);
   }
 
   /**
@@ -72,7 +72,7 @@ public abstract class Hitbox3 {
    * @return The maximum x-coordinate of the Hitbox3.
    */
   public double maxX() {
-    return center.x + (dimensions.x / 2);
+    return center.xcoord + (dimensions.xcoord / 2);
   }
 
   /**
@@ -81,7 +81,7 @@ public abstract class Hitbox3 {
    * @return The minimum y-coordinate of the Hitbox3.
    */
   public double minY() {
-    return center.y - (dimensions.y / 2);
+    return center.ycoord - (dimensions.ycoord / 2);
   }
 
   /**
@@ -90,7 +90,7 @@ public abstract class Hitbox3 {
    * @return The maximum x-coordinate of the Hitbox3.
    */
   public double maxY() {
-    return center.y + (dimensions.y / 2);
+    return center.ycoord + (dimensions.ycoord / 2);
   }
 
   /**
@@ -99,7 +99,7 @@ public abstract class Hitbox3 {
    * @return The minimum z-coordinate of the Hitbox3.
    */
   public double minZ() {
-    return center.z - (dimensions.z / 2);
+    return center.zcoord - (dimensions.zcoord / 2);
   }
 
   /**
@@ -108,7 +108,7 @@ public abstract class Hitbox3 {
    * @return The maximum x-coordinate of the Hitbox3.
    */
   public double maxZ() {
-    return center.z + (dimensions.z / 2);
+    return center.zcoord + (dimensions.zcoord / 2);
   }
 
   /**
@@ -127,7 +127,7 @@ public abstract class Hitbox3 {
   
   @Override
   public String toString() {
-    return "Center: (" + center.x + ", " + center.y + ", " + center.z + ")";
+    return "Center: (" + center.xcoord + ", " + center.ycoord + ", " + center.zcoord + ")";
   }
 
   /**

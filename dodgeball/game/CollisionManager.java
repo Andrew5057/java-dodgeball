@@ -28,8 +28,8 @@ public class CollisionManager {
     return root.collisions(point).toArray(new Hitbox3[0]);
   }
 
-  public boolean remove(Hitbox3 box) {
-    return root.remove(box);
+  public boolean remove(Hitbox3 boxcoord) {
+    return root.remove(boxcoord);
   }
 
   @Override

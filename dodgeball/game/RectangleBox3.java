@@ -28,13 +28,13 @@ public class RectangleBox3 extends Hitbox3 {
    */
   @Override
   public boolean contains(double x, double y, double z) {
-    if (x < center.x - dimensions.x || x > center.x + dimensions.x) {
+    if (x < center.xcoord - dimensions.xcoord || x > center.xcoord + dimensions.xcoord) {
       return false;
     }
-    if (y < center.y - dimensions.y || y > center.y + dimensions.y) {
+    if (y < center.ycoord - dimensions.ycoord || y > center.ycoord + dimensions.ycoord) {
       return false;
     }
-    if (z < center.z - dimensions.z || z > center.z + dimensions.z) {
+    if (z < center.zcoord - dimensions.zcoord || z > center.zcoord + dimensions.zcoord) {
       return false;
     }
 
@@ -48,12 +48,12 @@ public class RectangleBox3 extends Hitbox3 {
    */
   @Override
   public boolean contains(Vector3 point) {
-    return contains(point.x, point.y, point.z);
+    return contains(point.xcoord, point.ycoord, point.zcoord);
   }
 
   @Override
   public String toString() {
-    return "RectangleBox3\nDimensions: (" + dimensions.x + ", " + dimensions.y + ", "
-        + dimensions.z + ")\n" + super.toString();
+    return "RectangleBox3\nDimensions: (" + dimensions.xcoord + ", " + dimensions.ycoord + ", "
+        + dimensions.zcoord + ")\n" + super.toString();
   }
 }

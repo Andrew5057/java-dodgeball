@@ -68,9 +68,9 @@ public class Projectile3 implements Cloneable {
    *                since the last <code>update()</code> call.
    */
   public void update(double seconds) {
-    double deltaX = velocity.x * seconds;
-    double deltaY = HALF_GRAV * seconds * seconds + velocity.y * seconds;
-    double deltaZ = velocity.z * seconds;
+    double deltaX = velocity.xcoord * seconds;
+    double deltaY = HALF_GRAV * seconds * seconds + velocity.ycoord * seconds;
+    double deltaZ = velocity.zcoord * seconds;
     position = position.add(new Vector3(deltaX, deltaY, deltaZ));
 
     double deltaV = GRAVITY * seconds;
