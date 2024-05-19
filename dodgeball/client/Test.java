@@ -31,7 +31,7 @@ public class Test implements KeyListener {
    */
   public static void main(String[] args) throws IOException {
     Model3 model = new Model3(new File(new File("").getAbsolutePath()
-        + "/DodgeballClient/Assets/Dodgeball.md3"));
+        + "dodgeball//client/assets/Dodgeball.md3"));
     model.translate(new Vector3(0, 1.5, 0));
 
     GameWindow window = new GameWindow(1200, 1080, null);
