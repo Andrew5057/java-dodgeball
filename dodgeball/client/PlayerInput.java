@@ -14,56 +14,61 @@ import java.awt.event.MouseListener;
  * @version (a version number or a date)
  */
 public class PlayerInput implements KeyListener, MouseListener {
-  private boolean wDown;
-  private boolean aDown;
-  private boolean sDown;
-  private boolean dDown;
+  private boolean wdown;
+  private boolean adown;
+  private boolean sdown;
+  private boolean ddown;
   private boolean spaceDown;
-  private boolean lClickDown;
+  private boolean leftClickDown;
   private boolean focused;
 
+  /**
+   * Create a new player input handler and attach it to a <code>dodgeball.client.GameWindow</code>.
+   *
+   * @param window The game window that this should be attached to.
+   */
   public PlayerInput(GameWindow window) {
-    wDown = false;
-    aDown = false;
-    sDown = false;
-    dDown = false;
+    wdown = false;
+    adown = false;
+    sdown = false;
+    ddown = false;
     spaceDown = false;
-    lClickDown = false;
+    leftClickDown = false;
     focused = true;
     window.addKeyListener(this);
     window.addMouseListener(this);
   }
 
-  public boolean wDown() {
-    return wDown;
+  public boolean wdown() {
+    return wdown;
   }
 
-  public boolean aDown() {
-    return aDown;
+  public boolean adown() {
+    return adown;
   }
 
-  public boolean sDown() {
-    return sDown;
+  public boolean sdown() {
+    return sdown;
   }
 
-  public boolean dDown() {
-    return dDown;
+  public boolean ddown() {
+    return ddown;
   }
 
   public boolean spaceDown() {
     return spaceDown;
   }
 
-  public boolean lClickDown() {
-    return lClickDown;
+  public boolean leftClickDown() {
+    return leftClickDown;
   }
 
   public boolean isFocused() {
     return focused;
   }
 
-  public void releaseLClick() {
-    lClickDown = false;
+  public void releaseLeftClick() {
+    leftClickDown = false;
   }
   
   public double mouseX() {
@@ -76,19 +81,20 @@ public class PlayerInput implements KeyListener, MouseListener {
     return location.getY();
   }
 
+  @Override
   public void keyPressed(KeyEvent event) {
     switch (event.getKeyCode()) {
       case KeyEvent.VK_W:
-        wDown = true;
+        wdown = true;
         break;
       case KeyEvent.VK_A:
-        aDown = true;
+        adown = true;
         break;
       case KeyEvent.VK_S:
-        sDown = true;
+        sdown = true;
         break;
       case KeyEvent.VK_D:
-        dDown = true;
+        ddown = true;
         break;
       case KeyEvent.VK_SPACE:
         spaceDown = true;
@@ -97,20 +103,21 @@ public class PlayerInput implements KeyListener, MouseListener {
         break;
     }
   }
-
+  
+  @Override
   public void keyReleased(KeyEvent event) {
     switch (event.getKeyCode()) {
       case KeyEvent.VK_W:
-        wDown = false;
+        wdown = false;
         break;
       case KeyEvent.VK_A:
-        aDown = false;
+        adown = false;
         break;
       case KeyEvent.VK_S:
-        sDown = false;
+        sdown = false;
         break;
       case KeyEvent.VK_D:
-        dDown = false;
+        ddown = false;
         break;
       case KeyEvent.VK_SPACE:
         spaceDown = false;
@@ -120,26 +127,32 @@ public class PlayerInput implements KeyListener, MouseListener {
     }
   }
 
+  @Override
   public void keyTyped(KeyEvent event) {
   }
 
+  @Override
   public void mousePressed(MouseEvent event) {
     if (event.getButton() == MouseEvent.BUTTON1) {
-      lClickDown = true;
+      leftClickDown = true;
     }
   }
 
+  @Override
   public void mouseExited(MouseEvent event) {
     focused = false;
   }
-
+  
+  @Override
   public void mouseEntered(MouseEvent event) {
     focused = true;
   }
-
+  
+  @Override
   public void mouseReleased(MouseEvent event) {
   }
-
+  
+  @Override
   public void mouseClicked(MouseEvent event) {
   }
 }

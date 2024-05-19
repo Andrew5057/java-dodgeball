@@ -1,11 +1,15 @@
 package dodgeball.client;
 
-import dodgeball.game.*;
+import dodgeball.game.Model3;
+import dodgeball.game.Vector3;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Generic tester for graphics.
+ */
 public class Test implements KeyListener {
   private static boolean up;
   private static boolean down;
@@ -20,8 +24,10 @@ public class Test implements KeyListener {
   private static boolean directionRequested;
 
   /**
-   * 
-   * @param args
+   * Test graphics.
+   *
+   * @param args Command line arguments
+   * @throws IOException If file reading fails.
    */
   public static void main(String[] args) throws IOException {
     Model3 model = new Model3(new File(new File("").getAbsolutePath()

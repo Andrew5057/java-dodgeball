@@ -120,6 +120,20 @@ public class GameWindow extends Frame {
   }
 
   /**
+   * Set the position of the Camera that the Window uses to render objects.
+   *
+   * @param position A Vector3 containing the desired x, y, and z coordinates,
+   *                 respectively.
+   */
+  public void setCameraPosition(Vector3 position) {
+    camera.setPosition(position);
+  }
+  
+  public void setCameraDirection(Vector3 direction) {
+    camera.setDirection(direction);
+  }
+
+  /**
    * Move the Camera that the Window uses to render objects.
    *
    * @param x The amount the Camera should be translated in the x direction.
@@ -139,20 +153,6 @@ public class GameWindow extends Frame {
    */
   public void translateCamera(Vector3 displacement) {
     camera.translate(displacement);
-  }
-
-  /**
-   * Set the position of the Camera that the Window uses to render objects.
-   *
-   * @param position A Vector3 containing the desired x, y, and z coordinates,
-   *                 respectively.
-   */
-  public void setCameraPosition(Vector3 position) {
-    camera.setPosition(position);
-  }
-  
-  public void setCameraDirection(Vector3 direction) {
-    camera.setDirection(direction);
   }
 
   /**

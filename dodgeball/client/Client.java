@@ -43,9 +43,9 @@ public class Client implements Runnable {
    * Generates a new Robot for mouse movement as well as attempting to load models if they have not
    * been loaded yet.
    *
-   * @throws FileNotFoundException
-   * @throws IOException
-   * @throws AWTException
+   * @throws FileNotFoundException if the model files have been misplaced.
+   * @throws IOException if the model files cannot be read.
+   * @throws AWTException if a Robot cannot be instantiated.
    */
   public Client() throws FileNotFoundException, IOException, AWTException {
     String rootPath = new File("").getAbsolutePath();
@@ -113,7 +113,7 @@ public class Client implements Runnable {
               (int) (window.getSize().getHeight() / 2.0));
         }
 
-        playerInput.releaseLClick();
+        playerInput.releaseLeftClick();
 
         window.setModels(models);
         window.repaint();
@@ -149,7 +149,7 @@ public class Client implements Runnable {
    * Attempt to connect to a Dodgeball host. Ask for a host name and attempt to
    * connect to that host; if the
    * host cannot be found, ask for the user to re-enter.
-   * 
+   *
    * @return <code>true</code> if a connection could be made, <code>false</code>
    *         otherwise.
    */
@@ -164,14 +164,16 @@ public class Client implements Runnable {
         socket = new Socket(hostId, 8080);
         found = true;
       } catch (UnknownHostException e) {
-        System.out.println("Host " + hostId +
-            " could not be found. Enter the host name: ");
+        System.out.println("Host " + hostId
+            + " could not be found. Enter the host name: ");
         hostId = reader.nextLine();
         try {
           socket = new Socket(hostId, 8080);
           found = true;
         } catch (UnknownHostException uhe) {
+          ;
         } catch (IOException ioe) {
+          ;
         }
       } catch (IOException e) {
         e.printStackTrace();
@@ -208,7 +210,7 @@ public class Client implements Runnable {
   /**
    * Add a number of player models to a <code>List</code> of <code>Model3</code>
    * objects.
-   * 
+   *
    * @param positions  A <code>List</code> of <code>Vector3</code> objects
    *                   representing the players' centers.
    * @param directions A <code>List</code> of <code>Vector3</code> objects
@@ -216,7 +218,8 @@ public class Client implements Runnable {
    * @param models     The <code>List&lt;Model33&gt;</code> that new models should
    *                   be added to.
    */
-  private void addPlayerModels(List<Vector3> positions, List<Vector2> directions, List<Model3> models) {
+  private void addPlayerModels(List<Vector3> positions, List<Vector2> directions,
+      List<Model3> models) {
     for (int i = 0; i < positions.size(); i++) {
       Vector3 pos = positions.get(i);
       Vector2 dir = directions.get(i);
@@ -233,7 +236,7 @@ public class Client implements Runnable {
   /**
    * Add a number of dodgeball models to a <code>List</code> of
    * <code>Model3</code> objects.
-   * 
+   *
    * @param positions A <code>List</code> of <code>Vector3</code> objects
    *                  representing the dodgeballs' centers.
    * @param models    The <code>List&lt;Model33&gt;</code> that new models should
@@ -260,16 +263,16 @@ public class Client implements Runnable {
    * respectively, where 0 is the center,
    * -1 is the top or left, and 1 is the bottom or right.
    *
-   * @throws IOException
+   * @throws IOException if data cannot be written to the output stream.
    */
   private void writeInfo() throws IOException {
     output.writeBoolean(playing);
-    output.writeBoolean(playerInput.wDown());
-    output.writeBoolean(playerInput.aDown());
-    output.writeBoolean(playerInput.sDown());
-    output.writeBoolean(playerInput.dDown());
+    output.writeBoolean(playerInput.wdown());
+    output.writeBoolean(playerInput.adown());
+    output.writeBoolean(playerInput.sdown());
+    output.writeBoolean(playerInput.ddown());
     output.writeBoolean(playerInput.spaceDown());
-    output.writeBoolean(playerInput.lClickDown());
+    output.writeBoolean(playerInput.leftClickDown());
     double absoluteX = playerInput.mouseX();
     double relativeX = absoluteX - window.getSize().getWidth() / 2.0;
     output.writeDouble(relativeX);
@@ -281,10 +284,10 @@ public class Client implements Runnable {
   /**
    * Construct a Vector3 based on the next three <code>double</code> values from
    * the current input stream.
-   * 
+   *
    * @return A new <code>Vector3</code> object based on the current input stream's
    *         next three <code>double</code> values.
-   * @throws IOException
+   * @throws IOException if data cannot be read from the input stream.
    */
   private Vector3 readVector3() throws IOException {
     double x = input.readDouble();
@@ -296,10 +299,10 @@ public class Client implements Runnable {
   /**
    * Construct a Vector2 based on the next two <code>double</code> values from the
    * current input stream.
-   * 
+   *
    * @return A new <code>Vector2</code> object based on the current input stream's
    *         next two <code>double</code> values.
-   * @throws IOException
+   * @throws IOException if data cannot be read from the input stream.
    */
   private Vector2 readVector2() throws IOException {
     double x = input.readDouble();
@@ -310,12 +313,12 @@ public class Client implements Runnable {
   /**
    * Read an arbitrary number of <code>Vector3</code> objects from the current
    * input stream.
-   * 
+   *
    * @param numVectors The number of <code>Vector3</code> objects that should be
    *                   read.
    * @return A <code>List&lt;Vector3&gt;</code> containing the next
    *         <code>numVectors</code> numbers from the input stream..
-   * @throws IOException
+   * @throws IOException if data cannot be read from the input stream.
    */
   private List<Vector3> readManyVector3s(int numVectors) throws IOException {
     List<Vector3> vectors = new ArrayList<Vector3>();
@@ -328,12 +331,12 @@ public class Client implements Runnable {
   /**
    * Read an arbitrary number of <code>Vector2</code> objects from the current
    * input stream.
-   * 
+   *
    * @param numVectors The number of <code>Vector3</code> objects that should be
    *                   read.
    * @return A <code>List&lt;Vector2&gt;</code> containing the next
    *         <code>numVectors</code> numbers from the input stream..
-   * @throws IOException
+   * @throws IOException if data cannot be read from the input stream.
    */
   private List<Vector2> readManyVector2s(int numVectors) throws IOException {
     List<Vector2> vectors = new ArrayList<Vector2>();
