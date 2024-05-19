@@ -74,7 +74,7 @@ public class GameManager implements Runnable {
       Hitbox3[] colls = collManager.collisions(dodgeball.position());
       if (colls.length > 0) {
         for (Hitbox3 box : colls) {
-          if (box instanceof Player && dodgeball.thrower != boxcoord) {
+          if (box instanceof Player && dodgeball.thrower != box) {
             Player pl = (Player) box;
             pl.onDodgeballHit();
             removables.add(dodgeball);
