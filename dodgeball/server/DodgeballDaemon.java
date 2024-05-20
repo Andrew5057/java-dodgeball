@@ -39,7 +39,6 @@ public class DodgeballDaemon implements Runnable {
           listener.close();
         } catch (IOException ioe) {
           e.printStackTrace();
-          ;
           return;
         }
       }

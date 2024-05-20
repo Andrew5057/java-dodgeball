@@ -6,6 +6,9 @@ import dodgeball.game.Vector2;
 import dodgeball.game.Vector3;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The top-level manager for a game of dodgeball.
@@ -39,6 +42,8 @@ public class GameManager implements Runnable {
   public void addPlayer(Player player) {
     players.add(player);
     collManager.add(player);
+
+    dodgeballs.add(new Dodgeball(new Vector3(0, 1.5, 0), Vector3.ZERO, player));
   }
 
   public void removePlayer(Player player) {
@@ -57,20 +62,12 @@ public class GameManager implements Runnable {
   @Override
   public void run() {
     new Thread(daemon).start();
-    long time = System.currentTimeMillis();
-    while (true) {
-      long ping = System.currentTimeMillis() - time;
-      try {
-        if (ping < 33) {
-          Thread.sleep(33 - ping);
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
-        return;
+    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    scheduler.scheduleAtFixedRate(new Runnable() {
+      public void run() {
+        update(33);
       }
-      time = System.currentTimeMillis();
-      update(0.001 * ping);
-    }
+    }, 0, 33, TimeUnit.MILLISECONDS);
   }
 
   /**
@@ -107,9 +104,11 @@ public class GameManager implements Runnable {
       player.update(seconds);
     }
 
+    /*
     for (Dodgeball dodgeball : dodgeballs) {
       dodgeball.update(seconds);
     }
+    */
   }
 
   /**

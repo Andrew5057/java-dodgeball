@@ -17,6 +17,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * The client-side program responsible for handling input and graphics for a
@@ -69,72 +73,58 @@ public class Client implements Runnable {
     createWindow();
 
     playing = true;
-    long time = System.currentTimeMillis();
-    try {
-      while (true) {
-        long ping = System.currentTimeMillis() - time;
-        if (ping < MS_PER_FRAME) {
-          Thread.sleep(MS_PER_FRAME - ping);
-        } else {
-          /*
-           * for (int i = 1; time+MS_PER_FRAME*i < System.currentTimeMillis(); i++) {
-           * readVector3();
-           * readVector3();
-           * int n = input.readInt();
-           * readManyVector3s(n);
-           * readManyVector2s(n);
-           * readManyVector3s(input.readInt());
-           * writeInfo();
-           * }
-           */
-        }
-        time = System.currentTimeMillis();
-
-        Vector3 myPos = readVector3();
-        Vector3 myDir = readVector3();
-        window.setCameraPosition(myPos);
-        window.setCameraDirection(myDir);
-
-        List<Model3> models = new ArrayList<Model3>();
-
-        int numPlayers = input.readInt();
-        List<Vector3> playerPositions = readManyVector3s(numPlayers);
-        List<Vector2> playerDirections = readManyVector2s(numPlayers);
-        addPlayerModels(playerPositions, playerDirections, models);
-
-        int numDodgeballs = input.readInt();
-        List<Vector3> dodgeballPositions = readManyVector3s(numDodgeballs);
-        addDodgeballModels(dodgeballPositions, models);
-
-        writeInfo();
-
-        if (playerInput.isFocused()) {
-          robot.mouseMove((int) (window.getSize().getWidth() / 2.0),
-              (int) (window.getSize().getHeight() / 2.0));
-        }
-
-        playerInput.releaseLeftClick();
-
-        window.setModels(models);
-        window.repaint();
-
-        if (!playing) {
-          socket.close();
+    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    scheduler.scheduleAtFixedRate(new Runnable() {
+      public void run() {
+        try {
+          update();
+        } catch (IOException e) {
+          e.printStackTrace();
+          try {
+            socket.close();
+          } catch (IOException ioe) {
+            ioe.printStackTrace();
+          }
           System.exit(0);
         }
       }
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        socket.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
+    }, 0, MS_PER_FRAME, TimeUnit.MILLISECONDS);
     System.exit(0);
+  }
+
+  private void update() throws IOException {
+    Vector3 myPos = readVector3();
+    Vector3 myDir = readVector3();
+    window.setCameraPosition(myPos);
+    window.setCameraDirection(myDir);
+
+    List<Model3> models = new ArrayList<Model3>();
+
+    int numPlayers = input.readInt();
+    List<Vector3> playerPositions = readManyVector3s(numPlayers);
+    List<Vector2> playerDirections = readManyVector2s(numPlayers);
+    addPlayerModels(playerPositions, playerDirections, models);
+
+    int numDodgeballs = input.readInt();
+    List<Vector3> dodgeballPositions = readManyVector3s(numDodgeballs);
+    addDodgeballModels(dodgeballPositions, models);
+
+    writeInfo();
+
+    if (playerInput.isFocused()) {
+      robot.mouseMove((int) (window.getSize().getWidth() / 2.0),
+          (int) (window.getSize().getHeight() / 2.0));
+    }
+
+    playerInput.releaseLeftClick();
+
+    window.setModels(models);
+    window.render();
+
+    if (!playing) {
+      socket.close();
+      System.exit(0);
+    }
   }
 
   /**

@@ -6,6 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Generic tester for graphics.
@@ -31,48 +34,46 @@ public class Test implements KeyListener {
    */
   public static void main(String[] args) throws IOException {
     Model3 model = new Model3(new File(new File("").getAbsolutePath()
-        + "dodgeball//client/assets/Dodgeball.md3"));
+        + "/dodgeball/client/assets/Dodgeball.md3"));
     model.translate(new Vector3(0, 1.5, 0));
-
+    
     GameWindow window = new GameWindow(1200, 1080, null);
     window.addModel(model);
-    window.repaint();
     window.addKeyListener(new Test());
     window.setCameraPosition(new Vector3(-3, 1.5, 0));
     window.setCameraDirection(Vector3.I);
-    long time = System.currentTimeMillis();
-    while (true) {
-      long ping = System.currentTimeMillis() - time;
-      try {
-        if (ping < 33) {
-          Thread.sleep(33 - ping);
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
+
+    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+    scheduler.scheduleAtFixedRate(new Runnable() {
+      public void run() {
+        update(window);
       }
-      time = System.currentTimeMillis();
-      if (directionRequested) {
-        System.out.println(window.cameraPosition());
-        System.out.println(window.cameraDirection());
-        System.out.println(window.cameraHorizontal());
-        System.out.println(window.cameraVertical());
-        System.out.println(window.cameraDirection().dot(window.cameraHorizontal()));
-        System.out.println();
-        directionRequested = false;
-      }
+    }, 0, 33, TimeUnit.MILLISECONDS);
+  }
 
-      window.translateCamera(window.cameraHorizontal().multiply(((left ? -0.033 : 0)
-          + (right ? 0.033 : 0)) * 20));
-      window.translateCamera(window.cameraDirection().multiply((fwd ? 0.033 : 0)
-          + (back ? -0.033 : 0)));
-      window.translateCamera(Vector3.J.multiply((down ? -0.033 : 0) + (up ? 0.033 : 0)));
-
-      window.rotateCamera(
-          (yawL ? -1 : 0) + (yawR ? 1 : 0),
-          (pitU ? 1 : 0) + (pitD ? -1 : 0));
-
-      window.repaint();
+  private static void update(GameWindow window) {
+    if (directionRequested) {
+      System.out.println(window.cameraPosition());
+      System.out.println(window.cameraDirection());
+      System.out.println(window.cameraHorizontal());
+      System.out.println(window.cameraVertical());
+      System.out.println(window.cameraDirection().dot(window.cameraHorizontal()));
+      System.out.println();
+      directionRequested = false;
     }
+
+    window.translateCamera(window.cameraHorizontal().multiply(((left ? -0.033 : 0)
+        + (right ? 0.033 : 0)) * 20));
+    window.translateCamera(window.cameraDirection().multiply((fwd ? 0.033 : 0)
+        + (back ? -0.033 : 0)));
+    window.translateCamera(Vector3.J.multiply((down ? -0.033 : 0) + (up ? 0.033 : 0)));
+
+    window.rotateCamera(
+        (yawL ? -1 : 0) + (yawR ? 1 : 0),
+        (pitU ? 1 : 0) + (pitD ? -1 : 0));
+    
+    window.render();
   }
 
   @Override

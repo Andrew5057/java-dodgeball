@@ -5,7 +5,6 @@ import dodgeball.game.Model3;
 import dodgeball.game.Polygon3;
 import dodgeball.game.Vector3;
 import java.awt.Color;
-import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -13,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  * The game window used to show a Dodgeball game to the client.
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
  * @author Andrew Yim
  * @version 1-23-2024
  */
-public class GameWindow extends Frame {
+public class GameWindow extends JFrame {
   private int pixelsX;
   private int pixelsY;
   private int halfWidth;
@@ -29,6 +30,7 @@ public class GameWindow extends Frame {
   private double scaleFactorY;
   private Camera camera;
   private List<Model3> models; // Models that the Window should be keeping track of
+  private Stream<Object[]> drawablePolys;
 
   /**
    * Generate a Window that will fit a screen with the given width and height.
@@ -197,10 +199,7 @@ public class GameWindow extends Frame {
     g.fillPolygon(xcoords, ycoords, xcoords.length);
   }
 
-  /**
-   * Draw all tracked Models on the screen.
-   */
-  public void paint(Graphics g) {
+  private void renderModels() {
     List<Model3> drawables = new ArrayList<Model3>(models);
     List<Polygon3> polys = new ArrayList<Polygon3>();
     for (Model3 model : drawables) {
@@ -208,10 +207,24 @@ public class GameWindow extends Frame {
     }
 
     Polygon3[] sortedPolys = Polygon3.sort(polys.toArray(new Polygon3[0]));
-    Stream<Object[]> drawablePolys = Arrays.stream(sortedPolys).parallel()
+    drawablePolys = Arrays.stream(sortedPolys).parallel()
         .filter(p -> p.minZ() >= 0).map(this::polygonToDrawable);
+  }
 
-    g.clearRect(0, 0, pixelsX, pixelsY);
-    drawablePolys.sequential().forEach(p -> this.drawPolygon(g, p));
+  /**
+   * Draw all tracked Models on the screen.
+   */
+  @Override
+  public void paintComponents(Graphics g) {
+    super.paintComponents(g);
+    drawablePolys.sequential().forEach(p -> drawPolygon(g, p));
+  }
+
+  /**
+   * Render and draw all tracked models onto the screen.
+   */
+  public void render() {
+    renderModels();
+    SwingUtilities.invokeLater(this::repaint);
   }
 }
