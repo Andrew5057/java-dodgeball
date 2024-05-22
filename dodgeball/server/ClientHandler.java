@@ -55,6 +55,8 @@ public class ClientHandler implements Runnable {
 
   private boolean update() {
     try {
+      output.writeBoolean(player.hit());
+
       writeVector3(player.headPosition());
       writeVector3(player.lookVector());
 

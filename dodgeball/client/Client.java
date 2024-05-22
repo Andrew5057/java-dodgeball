@@ -111,6 +111,9 @@ public class Client implements Runnable {
   }
 
   private void update() throws IOException {
+    if (input.readBoolean()) {
+      quit();
+    }
     Vector3 myPos = readVector3();
     Vector3 myDir = readVector3();
     window.setCameraPosition(myPos);
