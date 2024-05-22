@@ -12,9 +12,6 @@ import java.awt.Color;
  * @version 11-12-2023
  */
 public class Polygon3 implements Cloneable {
-  private double[] xcoords;
-  private double[] ycoords;
-  private double[] zcoords;
   private int length;
   private Color color;
   private Vector3[] points;
@@ -24,16 +21,7 @@ public class Polygon3 implements Cloneable {
    */
   public Polygon3(Vector3[] points, Color color) {
     this.length = points.length;
-    xcoords = new double[length];
-    ycoords = new double[length];
-    zcoords = new double[length];
     this.points = points.clone();
-    for (int i = 0; i < length; i++) {
-      Vector3 point = points[i];
-      xcoords[i] = point.xcoord;
-      ycoords[i] = point.ycoord;
-      zcoords[i] = point.zcoord;
-    }
     this.color = color;
   }
 
@@ -124,7 +112,11 @@ public class Polygon3 implements Cloneable {
    * @return A new double[] containing the Polygon3's x-coordinates in sequential order.
    */
   public double[] xcoords() {
-    return xcoords.clone();
+    double[] coords = new double[points.length];
+    for (int i = 0; i < points.length; i++) {
+      coords[i] = points[i].xcoord;
+    }
+    return coords;
   }
 
   /**
@@ -133,7 +125,11 @@ public class Polygon3 implements Cloneable {
    * @return A new double[] containing the Polygon3's y-coordinates in sequential order.
    */
   public double[] ycoords() {
-    return ycoords.clone();
+    double[] coords = new double[points.length];
+    for (int i = 0; i < points.length; i++) {
+      coords[i] = points[i].ycoord;
+    }
+    return coords;
   }
 
   /**
@@ -142,7 +138,11 @@ public class Polygon3 implements Cloneable {
    * @return A new double[] containing the Polygon3's z-coordinates in sequential order.
    */
   public double[] zcoords() {
-    return zcoords.clone();
+    double[] coords = new double[points.length];
+    for (int i = 0; i < points.length; i++) {
+      coords[i] = points[i].zcoord;
+    }
+    return coords;
   }
 
   /**
@@ -194,9 +194,6 @@ public class Polygon3 implements Cloneable {
   public void translate(Vector3 displacement) {
     for (int i = 0; i < length; i++) {
       points[i] = points[i].add(displacement);
-      xcoords[i] = points[i].xcoord;
-      ycoords[i] = points[i].ycoord;
-      zcoords[i] = points[i].zcoord;
     }
   }
 
@@ -222,9 +219,6 @@ public class Polygon3 implements Cloneable {
       xf = x0 * cosYaw + z0 * sinYaw;
       zf = -x0 * sinYaw + z0 * cosYaw;
       points[i] = new Vector3(xf, vecFromC.ycoord, zf).add(center);
-      xcoords[i] = points[i].xcoord;
-      ycoords[i] = points[i].ycoord;
-      zcoords[i] = points[i].zcoord;
     }
   }
 
@@ -250,9 +244,6 @@ public class Polygon3 implements Cloneable {
       zf = -x0 * sinYaw + z0 * cosYaw;
       finalVec = new Vector3(xf, vecFromC.ycoord, zf).add(center);
       points[i] = finalVec;
-      xcoords[i] = points[i].xcoord;
-      ycoords[i] = points[i].ycoord;
-      zcoords[i] = points[i].zcoord;
     }
   }
 
