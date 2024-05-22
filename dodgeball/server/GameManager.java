@@ -60,9 +60,10 @@ public class GameManager implements Runnable {
   @Override
   public void run() {
     new Thread(daemon).start();
+    addPlayer(new Player());
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     scheduler.scheduleAtFixedRate(() -> {
-      update(MS_PER_FRAME);
+      update(0.001 * MS_PER_FRAME);
     }, 0, MS_PER_FRAME, TimeUnit.MILLISECONDS);
   }
 

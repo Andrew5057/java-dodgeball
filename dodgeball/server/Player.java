@@ -1,8 +1,8 @@
 package dodgeball.server;
 
 import dodgeball.game.Camera;
-import dodgeball.game.EllipsoidBox3;
 import dodgeball.game.Projectile3;
+import dodgeball.game.RectangleBox3;
 import dodgeball.game.Vector3;
 
 /**
@@ -11,12 +11,12 @@ import dodgeball.game.Vector3;
  * @author Andrew Yim
  * @version 3-1-2024
  */
-public class Player extends EllipsoidBox3 {
+public class Player extends RectangleBox3 {
   public static final double HEIGHT = 2.0;
-  public static final double BASE_SIZE = Math.sqrt(1.0 / 2.0);
-  public static final double WALK_SPEED = 1.0;
+  public static final double BASE_SIZE = Math.sqrt(2.0);
+  public static final double WALK_SPEED = 5.0;
   public static final double JUMP_POWER = -1.0 * Projectile3.GRAVITY;
-  public static final double THROW_STRENGTH = 1.0;
+  public static final double THROW_STRENGTH = 50.0;
   private static final Vector3 DIMENSIONS = new Vector3(BASE_SIZE, HEIGHT, BASE_SIZE);
   private static final Vector3 CENTER_TO_HEAD = new Vector3(0, HEIGHT * 0.25, 0);
 
@@ -24,6 +24,8 @@ public class Player extends EllipsoidBox3 {
   private Vector3 lookVector;
   private Projectile3 jumpTrajectory;
   private InputData inputData;
+  
+  private boolean hit;
 
   /**
    * Create a new player at the origin.
@@ -33,6 +35,7 @@ public class Player extends EllipsoidBox3 {
     feetLocation = Vector3.ZERO;
     lookVector = Vector3.I;
     inputData = new InputData();
+    hit = false;
   }
 
   /**
@@ -57,6 +60,10 @@ public class Player extends EllipsoidBox3 {
 
   public InputData inputData() {
     return inputData;
+  }
+
+  public boolean hit() {
+    return hit;
   }
 
   /**
@@ -114,6 +121,6 @@ public class Player extends EllipsoidBox3 {
   }
 
   public void onDodgeballHit() {
-
+    hit = true;
   }
 }
