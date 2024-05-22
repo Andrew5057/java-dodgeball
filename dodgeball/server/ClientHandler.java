@@ -46,11 +46,9 @@ public class ClientHandler implements Runnable {
     }
 
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    scheduler.scheduleAtFixedRate(new Runnable() {
-      public void run() {
-        if (!update()) {
-          scheduler.shutdown();
-        }
+    scheduler.scheduleAtFixedRate(() -> {
+      if (!update()) {
+        scheduler.shutdown();
       }
     }, 0, 33, TimeUnit.MILLISECONDS);
   }
