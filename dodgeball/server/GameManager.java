@@ -2,7 +2,6 @@ package dodgeball.server;
 
 import dodgeball.game.CollisionManager;
 import dodgeball.game.Hitbox3;
-import dodgeball.game.Vector2;
 import dodgeball.game.Vector3;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +42,6 @@ public class GameManager implements Runnable {
   public void addPlayer(Player player) {
     players.add(player);
     collManager.add(player);
-
-    dodgeballs.add(new Dodgeball(new Vector3(0, 1.5, 0), Vector3.ZERO, player));
   }
 
   public void removePlayer(Player player) {
@@ -103,11 +100,9 @@ public class GameManager implements Runnable {
       player.update(seconds);
     }
 
-    /*
     for (Dodgeball dodgeball : dodgeballs) {
       dodgeball.update(seconds);
     }
-    */
   }
 
   /**
@@ -120,7 +115,7 @@ public class GameManager implements Runnable {
         removables.add(dodgeball);
       }
     }
-    removables.removeAll(removables);
+    dodgeballs.removeAll(removables);
   }
 
   private List<Player> hitPlayers() {
@@ -158,14 +153,17 @@ public class GameManager implements Runnable {
     if (data.adown()) {
       right--;
     }
-    Vector2 moveVelocity = new Vector2(forward, right);
+    Vector3 forwardVector = new Vector3(player.lookVector().flatten());
+    Vector3 rightVector = forwardVector.cross(Vector3.J);
+    Vector3 moveVelocity = forwardVector.multiply(forward).add(
+        rightVector.multiply(right));
     moveVelocity = moveVelocity.unit();
     moveVelocity = moveVelocity.multiply(0.001 * MS_PER_FRAME * Player.WALK_SPEED);
 
     if (data.spaceDown()) {
-      player.jump(moveVelocity.xcoord, moveVelocity.ycoord);
+      player.jump(moveVelocity.xcoord, moveVelocity.zcoord);
     } else {
-      player.move(moveVelocity.xcoord, moveVelocity.ycoord);
+      player.move(moveVelocity.xcoord, moveVelocity.zcoord);
     }
 
     // Deal with look vectors.

@@ -16,7 +16,7 @@ public class Player extends EllipsoidBox3 {
   public static final double BASE_SIZE = Math.sqrt(1.0 / 2.0);
   public static final double WALK_SPEED = 1.0;
   public static final double JUMP_POWER = -1.0 * Projectile3.GRAVITY;
-  public static final double THROW_STRENGTH = 5.0;
+  public static final double THROW_STRENGTH = 1.0;
   private static final Vector3 DIMENSIONS = new Vector3(BASE_SIZE, HEIGHT, BASE_SIZE);
   private static final Vector3 CENTER_TO_HEAD = new Vector3(0, HEIGHT * 0.25, 0);
 

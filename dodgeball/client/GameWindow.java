@@ -232,9 +232,9 @@ public class GameWindow extends JFrame {
   }
 
   private void renderModels() {
-    List<Model3> drawables = new ArrayList<Model3>(models);
+    List<Model3> copiedModels = new ArrayList<Model3>(models);
     List<Polygon3> polys = new ArrayList<Polygon3>();
-    for (Model3 model : drawables) {
+    for (Model3 model : copiedModels) {
       polys.addAll(Arrays.asList(camera.render(model)));
     }
 

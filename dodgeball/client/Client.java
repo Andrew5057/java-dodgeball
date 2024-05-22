@@ -4,9 +4,7 @@ import dodgeball.game.Model3;
 import dodgeball.game.Vector2;
 import dodgeball.game.Vector3;
 import java.awt.AWTException;
-import java.awt.Dimension;
 import java.awt.Robot;
-import java.awt.Toolkit;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -130,11 +128,8 @@ public class Client implements Runnable {
     addDodgeballModels(dodgeballPositions, models);
 
     writeInfo();
-
-    if (playerInput.isFocused()) {
-      robot.mouseMove((int) (window.getSize().getWidth() / 2.0),
-          (int) (window.getSize().getHeight() / 2.0));
-    }
+    robot.mouseMove((int) (window.getSize().getWidth() / 2.0),
+        (int) (window.getSize().getHeight() / 2.0));
 
     playerInput.releaseLeftClick();
 
@@ -203,11 +198,12 @@ public class Client implements Runnable {
    * player's screen size.
    */
   private void createWindow() {
-    int res = Toolkit.getDefaultToolkit().getScreenResolution();
+    /*int res = Toolkit.getDefaultToolkit().getScreenResolution();
     Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     double width = dim.getWidth();
     double height = dim.getHeight();
-    window = new GameWindow((int) (res * width), (int) (res * height), this);
+    window = new GameWindow((int) (res * width), (int) (res * height), this);*/
+    window = new GameWindow(1200, 1080, this);
     playerInput = new PlayerInput(window);
   }
 

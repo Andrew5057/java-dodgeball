@@ -55,10 +55,8 @@ public class ClientHandler implements Runnable {
 
   private boolean update() {
     try {
-      // writeVector3(player.headPosition());
-      // writeVector3(player.lookVector());
-      writeVector3(new Vector3(-3, 1.5, 0));
-      writeVector3(Vector3.I);
+      writeVector3(player.headPosition());
+      writeVector3(player.lookVector());
 
       writePlayers();
       writeDodgeballs();
