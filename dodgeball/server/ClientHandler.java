@@ -46,10 +46,16 @@ public class ClientHandler implements Runnable {
     }
 
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    scheduler.scheduleAtFixedRate(this::update, 0, 33, TimeUnit.MILLISECONDS);
+    scheduler.scheduleAtFixedRate(new Runnable() {
+      public void run() {
+        if (!update()) {
+          scheduler.shutdown();
+        }
+      }
+    }, 0, 33, TimeUnit.MILLISECONDS);
   }
 
-  private void update() {
+  private boolean update() {
     try {
       // writeVector3(player.headPosition());
       // writeVector3(player.lookVector());
@@ -60,7 +66,7 @@ public class ClientHandler implements Runnable {
       writeDodgeballs();
 
       if (!readPlayerInput()) {
-        System.exit(0);
+        return false;
       }
     } catch (IOException e) {
       e.printStackTrace();
@@ -71,6 +77,7 @@ public class ClientHandler implements Runnable {
       }
       System.exit(0);
     }
+    return true;
   }
 
   private void writePlayers() throws IOException {

@@ -89,7 +89,6 @@ public class Client implements Runnable {
         }
       }
     }, 0, MS_PER_FRAME, TimeUnit.MILLISECONDS);
-    System.exit(0);
   }
 
   private void update() throws IOException {
