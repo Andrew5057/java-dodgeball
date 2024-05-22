@@ -119,6 +119,7 @@ public class ClientHandler implements Runnable {
     boolean s = input.readBoolean();
     boolean d = input.readBoolean();
     boolean space = input.readBoolean();
+    boolean c = input.readBoolean();
     boolean click = input.readBoolean();
     double mouseX = input.readDouble();
     double mouseY = input.readDouble();
@@ -129,6 +130,7 @@ public class ClientHandler implements Runnable {
     player.inputData().setS(s);
     player.inputData().setD(d);
     player.inputData().setSpace(space);
+    player.inputData().setC(c);
     player.inputData().setThrowingDodgeball(click);
     player.inputData().setMouseX(mouseX);
     player.inputData().setMouseY(mouseY);

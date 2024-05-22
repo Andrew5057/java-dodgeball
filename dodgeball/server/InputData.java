@@ -12,6 +12,7 @@ public class InputData {
   private boolean sdown;
   private boolean ddown;
   private boolean spaceDown;
+  private boolean cdown;
   private double mouseX;
   private double mouseY;
   private boolean throwingDodgeball;
@@ -25,6 +26,7 @@ public class InputData {
     sdown = false;
     ddown = false;
     spaceDown = false;
+    cdown = false;
     mouseX = 0;
     mouseY = 0;
     throwingDodgeball = false;
@@ -48,6 +50,10 @@ public class InputData {
 
   public boolean spaceDown() {
     return spaceDown;
+  }
+
+  public boolean cdown() {
+    return cdown;
   }
 
   public double mouseX() {
@@ -80,6 +86,10 @@ public class InputData {
 
   public void setSpace(boolean spaceDown) {
     this.spaceDown = spaceDown;
+  }
+
+  public void setC(boolean cdown) {
+    this.cdown = cdown;
   }
 
   public void setMouseX(double mouseX) {

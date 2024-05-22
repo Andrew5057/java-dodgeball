@@ -275,6 +275,7 @@ public class Client implements Runnable {
     output.writeBoolean(playerInput.sdown());
     output.writeBoolean(playerInput.ddown());
     output.writeBoolean(playerInput.spaceDown());
+    output.writeBoolean(playerInput.cdown());
     output.writeBoolean(playerInput.leftClickDown());
     double absoluteX = playerInput.mouseX();
     double relativeX = absoluteX - window.getSize().getWidth() / 2.0;

@@ -126,7 +126,16 @@ public class GameManager implements Runnable {
       Hitbox3[] collisions = collManager.collisions(dodgeball.position());
       for (Hitbox3 hitbox : collisions) {
         if (hitbox instanceof Player && dodgeball.thrower != hitbox) {
-          hit.add((Player) hitbox);
+          Player player = (Player) hitbox;
+          if (player.inputData().cdown()) {
+            Vector3 look = player.lookVector();
+            Vector3 velocity = dodgeball.velocity();
+            double angleCosine = look.dot(velocity) / (look.length() * velocity.length());
+            if (angleCosine > 0) {
+              player = dodgeball.thrower;
+            }
+          }
+          hit.add(player);
           removables.add(dodgeball);
           break;
         }

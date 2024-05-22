@@ -19,6 +19,7 @@ public class PlayerInput implements KeyListener, MouseListener {
   private boolean sdown;
   private boolean ddown;
   private boolean spaceDown;
+  private boolean cdown;
   private boolean leftClickDown;
   private boolean focused;
 
@@ -33,6 +34,7 @@ public class PlayerInput implements KeyListener, MouseListener {
     sdown = false;
     ddown = false;
     spaceDown = false;
+    cdown = false;
     leftClickDown = false;
     focused = true;
     window.addKeyListener(this);
@@ -57,6 +59,10 @@ public class PlayerInput implements KeyListener, MouseListener {
 
   public boolean spaceDown() {
     return spaceDown;
+  }
+
+  public boolean cdown() {
+    return cdown;
   }
 
   public boolean leftClickDown() {
@@ -99,6 +105,9 @@ public class PlayerInput implements KeyListener, MouseListener {
       case KeyEvent.VK_SPACE:
         spaceDown = true;
         break;
+      case KeyEvent.VK_C:
+        cdown = true;
+        break;
       default:
         break;
     }
@@ -121,6 +130,9 @@ public class PlayerInput implements KeyListener, MouseListener {
         break;
       case KeyEvent.VK_SPACE:
         spaceDown = false;
+        break;
+      case KeyEvent.VK_C:
+        cdown = false;
         break;
       default:
         break;
