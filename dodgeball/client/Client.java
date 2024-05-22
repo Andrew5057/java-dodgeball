@@ -73,10 +73,21 @@ public class Client implements Runnable {
     createWindow();
 
     playing = true;
+
+    new Thread(this::startServerCommunications).start();
+
+    new Thread(this::startWindowRefreshing).start();
+  }
+
+  private void startServerCommunications() {
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     scheduler.scheduleAtFixedRate(() -> {
       try {
         update();
+        if (!playing) {
+          socket.close();
+          scheduler.shutdown();
+        }
       } catch (IOException e) {
         e.printStackTrace();
         try {
@@ -84,6 +95,18 @@ public class Client implements Runnable {
         } catch (IOException ioe) {
           ioe.printStackTrace();
         }
+        scheduler.shutdown();
+      }
+    }, 0, MS_PER_FRAME, TimeUnit.MILLISECONDS);
+  }
+
+  private void startWindowRefreshing() {
+    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    scheduler.scheduleAtFixedRate(() -> {
+      if (playing) {
+        window.render();
+      } else {
+        scheduler.shutdown();
         System.exit(0);
       }
     }, 0, MS_PER_FRAME, TimeUnit.MILLISECONDS);
@@ -116,12 +139,6 @@ public class Client implements Runnable {
     playerInput.releaseLeftClick();
 
     window.setModels(models);
-    window.render();
-
-    if (!playing) {
-      socket.close();
-      System.exit(0);
-    }
   }
 
   /**
