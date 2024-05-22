@@ -45,10 +45,8 @@ public class Test implements KeyListener {
 
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    scheduler.scheduleAtFixedRate(new Runnable() {
-      public void run() {
-        update(window);
-      }
+    scheduler.scheduleAtFixedRate(() -> {
+      update(window);
     }, 0, 33, TimeUnit.MILLISECONDS);
   }
 

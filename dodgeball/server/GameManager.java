@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class GameManager implements Runnable {
   public static final int MAX_PLAYERS = Integer.MAX_VALUE;
+  public static final int MS_PER_FRAME = 33;
 
   private DodgeballDaemon daemon;
   private CollisionManager collManager;
@@ -63,11 +64,9 @@ public class GameManager implements Runnable {
   public void run() {
     new Thread(daemon).start();
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    scheduler.scheduleAtFixedRate(new Runnable() {
-      public void run() {
-        update(33);
-      }
-    }, 0, 33, TimeUnit.MILLISECONDS);
+    scheduler.scheduleAtFixedRate(() -> {
+      update(MS_PER_FRAME);
+    }, 0, MS_PER_FRAME, TimeUnit.MILLISECONDS);
   }
 
   /**
@@ -161,7 +160,7 @@ public class GameManager implements Runnable {
     }
     Vector2 moveVelocity = new Vector2(forward, right);
     moveVelocity = moveVelocity.unit();
-    moveVelocity = moveVelocity.multiply(0.033 * Player.WALK_SPEED);
+    moveVelocity = moveVelocity.multiply(0.001 * MS_PER_FRAME * Player.WALK_SPEED);
 
     if (data.spaceDown()) {
       player.jump(moveVelocity.xcoord, moveVelocity.ycoord);

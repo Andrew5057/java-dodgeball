@@ -74,19 +74,17 @@ public class Client implements Runnable {
 
     playing = true;
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    scheduler.scheduleAtFixedRate(new Runnable() {
-      public void run() {
+    scheduler.scheduleAtFixedRate(() -> {
+      try {
+        update();
+      } catch (IOException e) {
+        e.printStackTrace();
         try {
-          update();
-        } catch (IOException e) {
-          e.printStackTrace();
-          try {
-            socket.close();
-          } catch (IOException ioe) {
-            ioe.printStackTrace();
-          }
-          System.exit(0);
+          socket.close();
+        } catch (IOException ioe) {
+          ioe.printStackTrace();
         }
+        System.exit(0);
       }
     }, 0, MS_PER_FRAME, TimeUnit.MILLISECONDS);
   }
