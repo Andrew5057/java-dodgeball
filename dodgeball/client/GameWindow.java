@@ -108,7 +108,7 @@ public class GameWindow extends JFrame {
 
     @Override
     public void paintComponent(Graphics g) {
-      super.paintComponents(g);
+      super.paintComponent(g);
 
       if (drawables == null) {
         return;
