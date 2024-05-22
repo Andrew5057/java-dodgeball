@@ -46,7 +46,6 @@ public class GameManager implements Runnable {
 
   public void removePlayer(Player player) {
     players.remove(player);
-    collManager.remove(player);
   }
 
   public List<Player> players() {
@@ -77,6 +76,11 @@ public class GameManager implements Runnable {
     updateProjectiles(seconds);
     removeDroppedDodgeballs();
 
+    collManager = new CollisionManager();
+    for (Player player : players) {
+      collManager.add(player);
+    }
+
     for (Player player : hitPlayers()) {
       player.onDodgeballHit();
     }
@@ -95,8 +99,6 @@ public class GameManager implements Runnable {
    */
   private void updateProjectiles(double seconds) {
     for (Player player : players) {
-      collManager.remove(player);
-      collManager.add(player);
       player.update(seconds);
     }
 
