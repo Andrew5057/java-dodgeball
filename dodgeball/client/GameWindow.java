@@ -6,13 +6,14 @@ import dodgeball.game.Polygon3;
 import dodgeball.game.Vector3;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -29,17 +30,40 @@ public class GameWindow extends JFrame {
   private double scaleFactorX;
   private double scaleFactorY;
   private Camera camera;
-  private List<Model3> models; // Models that the Window should be keeping track of
-  private Stream<Object[]> drawablePolys;
+  private List<Model3> models;
+  private GamePanel panel;
+
+  private static final double Y_SCALE_FACTOR_MULTIPLIER = Math.sqrt(3);
 
   /**
-   * Generate a Window that will fit a screen with the given width and height.
-   * Will attempt to
-   * maximize screen area while maintaining a ratio of 90 horizontal degrees by 60
-   * vertical
+   * Generate a Window that will fit a screen with the given width and height. Will attempt to
+   * maximize screen area while maintaining a ratio of 90 horizontal degrees by 60 vertical
    * degrees.
    */
   public GameWindow(int screenWidth, int screenHeight, Client client) {
+    buildWindow(screenWidth, screenHeight);
+
+    camera = new Camera(0, 0, 0, 1, 0, 0);
+
+    panel = new GamePanel();
+    add(panel);
+    
+    models = new ArrayList<Model3>();
+
+    addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        if (client != null) {
+          client.quit();
+        } else {
+          System.exit(0);
+        }
+      }
+    });
+    setVisible(true);
+  }
+
+  private void buildWindow(int screenWidth, int screenHeight) {
     if (screenWidth <= Math.sqrt(3) * screenHeight) {
       this.pixelsX = screenWidth;
       this.pixelsY = (int) (screenWidth / Math.sqrt(3));
@@ -55,40 +79,44 @@ public class GameWindow extends JFrame {
 
     // 90 degree by 60 degree aspect ratio
     scaleFactorX = halfWidth;
-    scaleFactorY = 3 * halfHeight / Math.sqrt(3);
+    scaleFactorY = halfHeight * Y_SCALE_FACTOR_MULTIPLIER;
+  }
 
-    this.camera = new Camera(0, 0, 0, 1, 0, 0); // Basic camera, nothing special
+  private static class GamePanel extends JPanel {
+    private volatile List<Object[]> drawables;
 
-    addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent e) {
-        if (client != null) {
-          client.quit();
-        } else {
-          System.exit(0);
-        }
+    public void setDrawables(List<Object[]> drawables) {
+      this.drawables = drawables;
+    }
+
+    /**
+     * Draw a polygon on screen given its coordinate and color data.
+     *
+     * @param An Object[] containing:
+     *          - An int[] containing the x-coordinates of the vertices on the
+     *          screen.
+     *          - An int[] containing the y-coordinates of the vertices on the
+     *          screen.
+     *          - The Color of the Polygon3.
+     */
+    private void drawPolygon(Graphics g, Object[] polyData) {
+      int[] xcoords = (int[]) polyData[0];
+      int[] ycoords = (int[]) polyData[1];
+      g.setColor((Color) polyData[2]);
+      g.fillPolygon(xcoords, ycoords, xcoords.length);
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+      super.paintComponents(g);
+
+      if (drawables == null) {
+        return;
       }
-    });
 
-    models = new ArrayList<Model3>();
-    setVisible(true);
-  }
-
-  /**
-   * Give the Window a new Model3 to track and draw.
-   *
-   * @param model The Model3 that the Window should begin drwaing.
-   */
-  public void addModel(Model3 model) {
-    models.add(model);
-  }
-
-  public void clear() {
-    models.clear();
-  }
-
-  public void setModels(List<Model3> models) {
-    this.models = new ArrayList<Model3>(models);
+      Graphics2D g2d = (Graphics2D) g.create();
+      drawables.stream().forEach(p -> drawPolygon(g2d, p));
+    }
   }
 
   /**
@@ -157,6 +185,27 @@ public class GameWindow extends JFrame {
     camera.translate(displacement);
   }
 
+  public void addModel(Model3 model) {
+    models.add(model);
+  }
+
+  public void clearModels() {
+    models.clear();
+  }
+
+  /**
+   * Clears the model list and repopulates it with a new one.
+   *
+   * @param models The list of models that should be tracked.
+   */
+  public void setModels(List<Model3> models) {
+    clearModels();
+    models = new ArrayList<Model3>(models);
+    for (Model3 model : models) {
+      addModel(model);
+    }
+  }
+
   /**
    * Convert a Polygon3 to an array of x-coordinates, an array of y-coordinates,
    * and a Color.
@@ -182,23 +231,6 @@ public class GameWindow extends JFrame {
     return new Object[] { xcoords, ycoords, polygon.color() };
   }
 
-  /**
-   * Draw a polygon on screen given its coordinate and color data.
-   *
-   * @param An Object[] containing:
-   *          - An int[] containing the x-coordinates of the vertices on the
-   *          screen.
-   *          - An int[] containing the y-coordinates of the vertices on the
-   *          screen.
-   *          - The Color of the Polygon3.
-   */
-  private void drawPolygon(Graphics g, Object[] polyData) {
-    int[] xcoords = (int[]) polyData[0];
-    int[] ycoords = (int[]) polyData[1];
-    g.setColor((Color) polyData[2]);
-    g.fillPolygon(xcoords, ycoords, xcoords.length);
-  }
-
   private void renderModels() {
     List<Model3> drawables = new ArrayList<Model3>(models);
     List<Polygon3> polys = new ArrayList<Polygon3>();
@@ -207,17 +239,8 @@ public class GameWindow extends JFrame {
     }
 
     Polygon3[] sortedPolys = Polygon3.sort(polys.toArray(new Polygon3[0]));
-    drawablePolys = Arrays.stream(sortedPolys).parallel()
-        .filter(p -> p.minZ() >= 0).map(this::polygonToDrawable);
-  }
-
-  /**
-   * Draw all tracked Models on the screen.
-   */
-  @Override
-  public void paintComponents(Graphics g) {
-    super.paintComponents(g);
-    drawablePolys.sequential().forEach(p -> drawPolygon(g, p));
+    panel.setDrawables(Arrays.stream(sortedPolys).filter(p -> p.minZ() >= 0)
+        .map(this::polygonToDrawable).toList());
   }
 
   /**
