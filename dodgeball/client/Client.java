@@ -236,7 +236,7 @@ public class Client implements Runnable {
       Model3 playerToDraw = playerModel.clone();
       playerToDraw.translate(pos);
 
-      double lookAngle = Math.acos(dir.dot(Vector2.I));
+      double lookAngle = Math.toDegrees(Math.acos(dir.dot(Vector2.I)));
       playerToDraw.rotate(lookAngle);
       models.add(playerToDraw);
     }
