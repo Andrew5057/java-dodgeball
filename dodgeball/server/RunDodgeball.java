@@ -10,8 +10,8 @@ public class RunDodgeball {
    * @param args Command line arguments
    */
   public static void main(String[] args) {
-    System.out.println("Now hosting a game of dodgeball. Thank you for your sacrifice!\n");
-    
+    System.out.println("\nNow hosting a game of dodgeball. Thank you for your sacrifice!\n");
+
     GameManager manager = new GameManager();
     new Thread(manager).start();
   }
