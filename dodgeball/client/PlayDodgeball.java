@@ -20,15 +20,11 @@ public class PlayDodgeball {
   public static void main(String[] args) throws AWTException, FileNotFoundException, IOException, 
       InterruptedException {
     System.out.println("\nWelcome to Dodgeball!\n");
-    Thread.sleep(3000);
     System.out.println("There are no rules here, so yall are gonna have to make up the rules "
         + "yourselves.\n");
-    Thread.sleep(5000);
     System.out.println("I accept no responsibility if this bricks your computer, sets your desk "
         + "on fire, or causes any other property damage.\n");
-    Thread.sleep(5000);
     System.out.println("GLHF!\n");
-    Thread.sleep(3000);
     
     Client client = new Client();
     new Thread(client).start();
