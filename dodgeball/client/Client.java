@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class Client implements Runnable {
   private static Model3 playerModel;
   private static Model3 dodgeballModel;
+  private static Model3 groundModel;
   private static final int MS_PER_FRAME = 33;
 
   private GameWindow window;
@@ -56,6 +57,9 @@ public class Client implements Runnable {
     }
     if (dodgeballModel == null) {
       dodgeballModel = new Model3(new File(rootPath + "/dodgeball/client/assets/Dodgeball.md3"));
+    }
+    if (groundModel == null) {
+      groundModel = new Model3(new File(rootPath + "/dodgeball/client/assets/Ground.md3"));
     }
     robot = new Robot();
   }
@@ -120,6 +124,8 @@ public class Client implements Runnable {
     window.setCameraDirection(myDir);
 
     List<Model3> models = new ArrayList<Model3>();
+
+    models.add(groundModel);
 
     int numPlayers = input.readInt();
     List<Vector3> playerPositions = readManyVector3s(numPlayers);
