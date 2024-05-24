@@ -88,5 +88,3 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
-*.bat
-DodgeballClient/Test.java
