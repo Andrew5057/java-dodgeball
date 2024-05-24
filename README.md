@@ -16,6 +16,8 @@ When it's downloaded, open a new terminal window in whatever folder you download
 java -jar "Host Dodgeball.jar"
 `
 
+(If you're on Windows, you can also double-click "Host Dodgeball - Windows.bat".)
+
 Your host name will pop up on your screen, and you should be good to go. Don't forget to join the server!
 
 ### Joining a server
@@ -27,6 +29,8 @@ When it's downloaded, open a new terminal window in whatever folder you download
 `
 java -jar "Play Dodgeball.jar"
 `
+
+(If you're on Windows, you can also double-click "Play Dodgeball - Windows.bat".)
 
 Enter the host name, and you should join shortly!
 
