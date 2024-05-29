@@ -15,7 +15,7 @@ public class Player extends RectangleBox3 {
   public static final double HEIGHT = 2.0;
   public static final double BASE_SIZE = Math.sqrt(2.0);
   public static final double WALK_SPEED = 5.0;
-  public static final double JUMP_POWER = -1.0 * Projectile3.GRAVITY;
+  public static final double JUMP_POWER = -0.5 * Projectile3.GRAVITY;
   public static final double THROW_STRENGTH = 50.0;
   private static final Vector3 DIMENSIONS = new Vector3(BASE_SIZE, HEIGHT, BASE_SIZE);
   private static final Vector3 CENTER_TO_HEAD = new Vector3(0, HEIGHT * 0.25, 0);
@@ -93,9 +93,6 @@ public class Player extends RectangleBox3 {
    * @param z The number of units to move in the z-direction.
    */
   public void move(double x, double z) {
-    if (jumpTrajectory != null) {
-      return;
-    }
     feetLocation = feetLocation.add(new Vector3(x, 0, z));
     center = feetLocation.add(new Vector3(0, HEIGHT / 2.0, 0));
   }
@@ -113,7 +110,7 @@ public class Player extends RectangleBox3 {
 
     // Fine-tune, either here or in GameManager
     jumpTrajectory = new Projectile3(feetLocation,
-        new Vector3(xvelocity, zvelocity, JUMP_POWER));
+        new Vector3(xvelocity, JUMP_POWER, zvelocity));
   }
 
   public void rotate(double yaw, double pitch) {

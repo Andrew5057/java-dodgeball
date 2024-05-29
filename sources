@@ -3,7 +3,6 @@ dodgeball/client/Client.java
 dodgeball/client/GameWindow.java
 dodgeball/client/PlayDodgeball.java
 dodgeball/client/PlayerInput.java
-dodgeball/client/Test.java
 dodgeball/game/BoundingBox3.java
 dodgeball/game/Camera.java
 dodgeball/game/CollisionManager.java

@@ -168,12 +168,12 @@ public class GameManager implements Runnable {
     Vector3 rightVector = forwardVector.cross(Vector3.J);
     Vector3 moveVelocity = forwardVector.multiply(forward).add(
         rightVector.multiply(right));
-    moveVelocity = moveVelocity.unit();
-    moveVelocity = moveVelocity.multiply(0.001 * MS_PER_FRAME * Player.WALK_SPEED);
+    moveVelocity = moveVelocity.unit().multiply(Player.WALK_SPEED);
 
     if (data.spaceDown()) {
       player.jump(moveVelocity.xcoord, moveVelocity.zcoord);
     } else {
+      moveVelocity = moveVelocity.multiply(0.001 * MS_PER_FRAME);
       player.move(moveVelocity.xcoord, moveVelocity.zcoord);
     }
 
