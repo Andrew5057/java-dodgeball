@@ -1,0 +1,15 @@
+name: create-jarfiles
+run-name: ${{ github.actor }} is creating jarfiles
+on: [push]
+jobs:
+  jarify-client:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - run: jar --create --file="Play Dodgeball.jar" --main-class=dodgeball.client.PlayDodgeball dodgeball.game dodgeball.client
+  jarify-server:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - run: jar --create --file="Host Dodgeball.jar" --main-class=dodgeball.server.RunDodgeball dodgeball.game dodgeball.server
+  
