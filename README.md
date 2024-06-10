@@ -3,14 +3,16 @@ A project made by Andrew Yim for AP Computer Science A.
 
 ## Setup
 
-### Installing the JDK
+### Installation
 Before you play, make sure you have installed the JDK onto your computer. The JDK can be downloaded [here](https://www.oracle.com/java/technologies/downloads/); make sure you have installed JDK 22 or later before proceeding.
+
+You will also have to download this folder.
 
 ### Hosting a server
 
-In order to play dodgeball, one person must start a server. To do this, download and run the [hosting .jar file](https://github.com/Andrew5057/dodgeball-final/blob/main/Host%20Dodgeball.jar).
+In order to play dodgeball, one person must start a server. Make sure you have downloaded and unzipped the `java-dodgeball` folder before doing this.
 
-When it's downloaded, open a new terminal window in whatever folder you downloaded the file ([🪟](https://johnwargo.com/posts/2024/launch-windows-terminal/) [🍎](https://support.apple.com/guide/terminal/open-new-terminal-windows-and-tabs-trmlb20c7888/mac) [🐧](https://www.techrepublic.com/article/linux-101-how-to-quickly-open-a-terminal-in-a-specific-directory/)) and paste the following command:
+When it's downloaded, open a new terminal window in the folder. ([🪟](https://johnwargo.com/posts/2024/launch-windows-terminal/) [🍎](https://support.apple.com/guide/terminal/open-new-terminal-windows-and-tabs-trmlb20c7888/mac) [🐧](https://www.techrepublic.com/article/linux-101-how-to-quickly-open-a-terminal-in-a-specific-directory/)) and paste the following command:
 
 `
 java -jar "Host Dodgeball.jar"
@@ -22,9 +24,9 @@ Your host name will pop up on your screen, and you should be good to go. Don't f
 
 ### Joining a server
 
-Once someone's started a server, everyone else can join! Each player should download the [game file](https://github.com/Andrew5057/dodgeball-final/blob/main/Play%20Dodgeball.jar) and store it in a safe location.
+Once someone's started a server, everyone else can join! Each player should download the `java-dodgeball` folder and store it in a safe location.
 
-When it's downloaded, open a new terminal window in whatever folder you downloaded the file ([🪟](https://johnwargo.com/posts/2024/launch-windows-terminal/) [🍎](https://support.apple.com/guide/terminal/open-new-terminal-windows-and-tabs-trmlb20c7888/mac) [🐧](https://www.techrepublic.com/article/linux-101-how-to-quickly-open-a-terminal-in-a-specific-directory/)) and paste the following command:
+When it's downloaded, open a new terminal window in the folder ([🪟](https://johnwargo.com/posts/2024/launch-windows-terminal/) [🍎](https://support.apple.com/guide/terminal/open-new-terminal-windows-and-tabs-trmlb20c7888/mac) [🐧](https://www.techrepublic.com/article/linux-101-how-to-quickly-open-a-terminal-in-a-specific-directory/)) and paste the following command:
 
 `
 java -jar "Play Dodgeball.jar"
