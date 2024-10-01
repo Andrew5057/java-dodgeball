@@ -1,5 +1,5 @@
 # Java Dodgeball
-A project made by Andrew Yim for AP Computer Science A.
+A dodgeball game based entirely on Swing and custom custom Java classes. Designed on a Windows computer, but interoperability is half the point of Java anyways. Uses a host-client network because I'm not paying to run a server for a game nobody will play.
 
 ## Setup
 
