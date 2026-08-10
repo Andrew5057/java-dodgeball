@@ -1,18 +1,16 @@
 # Java Dodgeball
-A dodgeball game based entirely on Swing and custom custom Java classes. Designed on a Windows computer, but interoperability is half the point of Java anyways. Uses a host-client network because I'm not paying to run a server for a game nobody will play.
+A player-hosted dodgeball game based entirely on Swing and custom custom Java classes.
 
 ## Setup
 
 ### Installation
-Before you play, make sure you have installed the JDK onto your computer. The JDK can be downloaded [here](https://www.oracle.com/java/technologies/downloads/); make sure you have installed JDK 22 or later before proceeding.
+Requires JDK 22 or later, which can be downloaded from the [Oracle website](https://www.oracle.com/java/technologies/downloads/).
 
-You will also have to download this folder.
+The contents of this repository can be downloaded from the Code button, or retrieved by cloning. No additional setup is necessary.
 
 ### Hosting a server
 
-In order to play dodgeball, one person must start a server. Make sure you have downloaded and unzipped the `java-dodgeball` folder before doing this.
-
-When it's downloaded, open a new terminal window in the folder. ([🪟](https://johnwargo.com/posts/2024/launch-windows-terminal/) [🍎](https://support.apple.com/guide/terminal/open-new-terminal-windows-and-tabs-trmlb20c7888/mac) [🐧](https://www.techrepublic.com/article/linux-101-how-to-quickly-open-a-terminal-in-a-specific-directory/)) and paste the following command:
+In order to play dodgeball, one person must start a server. Make sure you have downloaded and unzipped the `java-dodgeball` folder before doing this. When it's downloaded, open a new terminal window in the folder. ([🪟](https://johnwargo.com/posts/2024/launch-windows-terminal/) [🍎](https://support.apple.com/guide/terminal/open-new-terminal-windows-and-tabs-trmlb20c7888/mac) [🐧](https://www.techrepublic.com/article/linux-101-how-to-quickly-open-a-terminal-in-a-specific-directory/)) and paste the following command:
 
 `
 java -jar "Host Dodgeball.jar"
@@ -20,13 +18,11 @@ java -jar "Host Dodgeball.jar"
 
 (If you're on Windows, you can also double-click "Host Dodgeball - Windows.bat".)
 
-Your host name will pop up on your screen, and you should be good to go. Don't forget to join the server!
+Your host name will pop up on your screen.
 
 ### Joining a server
 
-Once someone's started a server, everyone else can join! Each player should download the `java-dodgeball` folder and store it in a safe location.
-
-When it's downloaded, open a new terminal window in the folder ([🪟](https://johnwargo.com/posts/2024/launch-windows-terminal/) [🍎](https://support.apple.com/guide/terminal/open-new-terminal-windows-and-tabs-trmlb20c7888/mac) [🐧](https://www.techrepublic.com/article/linux-101-how-to-quickly-open-a-terminal-in-a-specific-directory/)) and paste the following command:
+Once someone's started a server, everyone else can join! Each player should download and unzip the `java-dodgeball` folder. When it's unzipped, open a new terminal window in the folder ([🪟](https://johnwargo.com/posts/2024/launch-windows-terminal/) [🍎](https://support.apple.com/guide/terminal/open-new-terminal-windows-and-tabs-trmlb20c7888/mac) [🐧](https://www.techrepublic.com/article/linux-101-how-to-quickly-open-a-terminal-in-a-specific-directory/)) and paste the following command:
 
 `
 java -jar "Play Dodgeball.jar"
@@ -73,4 +69,4 @@ Beyond that, the rules are up to you!
 
 ## Closing the server
 
-Whenever you're done with the game, the host should focus back into their terminal window and hit <kbd>CTRL</kbd>+<kbd>C</kbd>. Not vital, but it'll save some battery.
+Whenever you're done with the game, the host should focus back into their terminal window and hit <kbd>CTRL</kbd>+<kbd>C</kbd> to shut down the server.
